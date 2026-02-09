@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
-using Vendas.Domain.Clientes.Entities;
+using Vendas.Domain.Clientes;
 using Vendas.Domain.Common.Exceptions;
 
-namespace Vendas.Domain.Tests.Clientes.Entities
+namespace Vendas.Domain.Tests.Clientes
 {
     public class EnderecoTests
     {
@@ -51,15 +51,15 @@ namespace Vendas.Domain.Tests.Clientes.Entities
                 pais: "Brasil"
                 );
 
-            act.Should().Throw<DomainException>();
-            //.WithMessage("O CEP é obrigatório.");
+            act.Should().Throw<DomainException>()
+            .WithMessage("O CEP é obrigatório.");
         }
 
         [Fact(DisplayName = "Deve lançar erro quando cep não tiover 8 digitos")]
         public void Dev_Lancar_Erro_Quando_CEP_Nao_Tiver_8_Digitos()
         {
             Action act = () => new Endereco(
-                 cep: "1234",
+                 cep: "0123",
                  logradouro: "Rua A",
                  numero: "100",
                  bairro: "Centro",
@@ -67,8 +67,8 @@ namespace Vendas.Domain.Tests.Clientes.Entities
                  estado: "SP",
                  pais: "Brasil"
                  );
-            act.Should().Throw<DomainException>();
-            //.WithMessage("O CEP inválido.");
+            act.Should().Throw<DomainException>()
+            .WithMessage("O CEP inválido.");
         }
 
         [Theory(DisplayName = "Deve lançar erro quando campos obrigatórios forem invalidos")]

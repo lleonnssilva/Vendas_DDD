@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
 using Vendas.Domain.Common.Base;
 using Vendas.Domain.Common.Exceptions;
-using Vendas.Domain.Pedidos.Entities;
+using Vendas.Domain.Pedidos;
 
-namespace Vendas.Domain.Tests.Pedidos.Entities
+namespace Vendas.Domain.Tests.Pedidos
 {
     public class ItemPedidoTests
     {
@@ -44,8 +44,8 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
             Action act = () => new ItemPedido(produtoId, nomeProduto, preco, qtd);
 
             //Assert
-            act.Should().Throw<DomainException>();
-                //.WithMessage(mensagem);
+            act.Should().Throw<DomainException>()
+                .WithMessage(mensagem);
         }
 
         [Fact(DisplayName = "Deve aplicar desconto com sucesso quando valor válido")]
@@ -75,8 +75,8 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
             Action act = () => item.AplicarDesconto(desconto);
 
             //Assert
-            act.Should().Throw<DomainException>();
-                //.WithMessage(mensagem);
+            act.Should().Throw<DomainException>()
+                .WithMessage(mensagem);
             //item.DataAtulizacao.Should().NotBeNull();
         }
 
@@ -105,8 +105,9 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
             Action act = () => item.AdicionarUnidades(0);
 
             //Assert
-            act.Should().Throw<DomainException>();
-                //.WithMessage("Deve-se adicionar pelo menos uma unidade.");
+            act.Should()
+                .Throw<DomainException>()
+                .WithMessage("*pelo menos uma unidade*");
         }
 
         [Fact(DisplayName = "Deve remover unidade com sucesso quando valor válido")]
@@ -134,8 +135,9 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
             Action act = () => item.RemoverUnidades(2);
 
             //Assert
-            act.Should().Throw<DomainException>();
-                 //.WithMessage("Um item de pedido não pode ter quantidade Zero.Use o método da classe.");
+            act.Should()
+                .Throw<DomainException>()
+                .WithMessage("*quantidade*Zero*");
         }
 
         [Fact(DisplayName = "Deve atualizar preço unitario com sucesso quando valor válido")]
@@ -163,9 +165,9 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
             Action act = () => item.AtualizarPrecoUnitario(0);
 
             //Assert
-            act.Should().Throw<DomainException>();
-                 //.WithMessage("O preço unitário deve ser maior que zero");
-            //item.DataAtulizacao.Should().NotBeNull();
+            act.Should().Throw<DomainException>()
+                 .WithMessage("*O preço unitário deve ser maior que zero*s");
+            item.DataAtualizacao.Should().NotBeNull();
         }
 
         [Fact(DisplayName = "Dois itens com mesmo Id devem ser considerados iguais")]

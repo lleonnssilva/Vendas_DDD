@@ -2,7 +2,7 @@
 {
     public enum EstadoCivil
     {
-        Naoinformado = 0,
+        NaoInformado = 0,
         Solteiro = 1,
         Casado = 2,
         Divorciado = 3,

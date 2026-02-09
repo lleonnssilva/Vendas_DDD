@@ -1,4 +1,4 @@
-﻿namespace Vendas.Domain.Tests.Catalogo.Entities
+﻿namespace Vendas.Domain.Tests.Catalogo
 {
     internal class CategoriaTests
     {

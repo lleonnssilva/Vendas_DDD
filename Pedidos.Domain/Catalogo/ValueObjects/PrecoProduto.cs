@@ -12,14 +12,14 @@ namespace Vendas.Domain.Catalogo.ValueObjects
 
     public sealed class PrecoProduto : ValueObject
     {
-        public string Valor { get; }
-        public PrecoProduto(string valor)
+        public decimal Valor { get; }
+        public PrecoProduto(decimal valor)
         {
-            
-            Guard.Against<DomainException>(valor.Length <=0, "O preço do produto deve ser maior que zero.");
+
+            Guard.Against<DomainException>(valor <= 0, "O preço do produto deve ser maior que zero.");
 
 
-            Valor = valor.Trim();
+            Valor = valor;
         }
         protected override IEnumerable<object> GetEqualityComponents()
         {

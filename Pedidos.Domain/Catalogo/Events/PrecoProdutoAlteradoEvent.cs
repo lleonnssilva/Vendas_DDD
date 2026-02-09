@@ -2,5 +2,5 @@
 
 namespace Vendas.Domain.Catalogo.Events;
 
-public sealed record class PrecoProdutoAlteradoEvent(Guid ProdutoId, string PrecoAntigo, string PrecoNovo) : DomainEventBase;
+public sealed record class PrecoProdutoAlteradoEvent(Guid ProdutoId, decimal PrecoAntigo, decimal PrecoNovo) : DomainEventBase;
 

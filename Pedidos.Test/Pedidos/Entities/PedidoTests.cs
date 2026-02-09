@@ -1,12 +1,12 @@
 ﻿using FluentAssertions;
 using System.Reflection;
 using Vendas.Domain.Common.Exceptions;
-using Vendas.Domain.Pedidos.Entities;
+using Vendas.Domain.Pedidos;
 using Vendas.Domain.Pedidos.Enums;
 using Vendas.Domain.Pedidos.Events;
 using Vendas.Domain.Pedidos.ValueObjects;
 
-namespace Vendas.Domain.Tests.Pedidos.Entities
+namespace Vendas.Domain.Tests.Pedidos
 {
     public class PedidoTests
     {
@@ -44,7 +44,8 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
         {
             Action act = () => Pedido.Criar(Guid.Empty, CriarEnderecoValido());
 
-            act.Should().Throw<DomainException>();//.WithMessage("ClienteId inválido");
+            act.Should().Throw<DomainException>()
+                .WithMessage("ClienteId inválido");
         }
 
         [Fact(DisplayName = "Não deve criar pedido sem endereo de entrega")]
@@ -52,7 +53,8 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
         {
             Action act = () => Pedido.Criar(ClientIdValido, null!);
 
-            act.Should().Throw<DomainException>();//.WithMessage("O endereço de entrega é obrigatório.");
+            act.Should().Throw<DomainException>()
+                .WithMessage("O endereço de entrega é obrigatório.");
         }
 
         [Fact(DisplayName = "Deve adicionar item ao pedido")]
@@ -95,7 +97,8 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
             SetStatusPedido(pedido, statusPedido);
 
             Action act = () => pedido.AdicionarItem(Guid.NewGuid(), "Outro", 100m, 1);
-            act.Should().Throw<DomainException>();//.WithMessage("Itens só podem ser adicionados enquanto o pedido está pendente."); ;
+            act.Should().Throw<DomainException>()
+                .WithMessage("Itens só podem ser adicionados enquanto o pedido está pendente."); ;
         }
 
         [Fact(DisplayName = "Deve remover item e recalcular valor total")]
@@ -107,7 +110,8 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
 
             Action act = () => pedido.RemoverItem(pedido.Itens.First().Id);
 
-            act.Should().Throw<DomainException>();//.WithMessage("O pedido deve conter pelo menos um item.");
+            act.Should().Throw<DomainException>()
+                .WithMessage("O pedido deve conter pelo menos um item.");
         }
 
         [Fact(DisplayName = "Deve remover item e recalcular valor total quando houver mais de um item")]
@@ -137,7 +141,8 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
 
             Action act = () => pedido.RemoverItem(Guid.NewGuid());
 
-            act.Should().Throw<DomainException>();//.WithMessage("Item não encontrado no pedido.");
+            act.Should().Throw<DomainException>()
+                .WithMessage("Item não encontrado no pedido.");
 
         }
 
@@ -154,7 +159,8 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
             SetStatusPedido(pedido, statusPedido);
 
             Action act = () => pedido.RemoverItem(ProdutoIdValido);
-            act.Should().Throw<DomainException>();//.WithMessage("Itens só podem ser removidos em pedido pendente.");
+            act.Should().Throw<DomainException>()
+                .WithMessage("Itens só podem ser removidos em pedido pendente.");
         }
 
         [Fact(DisplayName = "Deve atualizar endereço de entrega quando Pendente")]
@@ -184,7 +190,8 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
 
             Action act = () => pedido.AtualizarEnderecoEntrega(novoEndereco);
 
-            act.Should().Throw<DomainException>();//.WithMessage("O endereço só pode ser alterado enquanto o pedido está pendente.");
+            act.Should().Throw<DomainException>()
+                .WithMessage("O endereço só pode ser alterado enquanto o pedido está pendente.");
         }
         /// <summary>
         /// Pagamentos
@@ -212,7 +219,8 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
 
             Action act = () => pedido.IniciarPagamento(MetodoPagamento.Pix);
 
-            act.Should().Throw<DomainException>();//.WithMessage("Não é possível iniciar o pagamento de um pedido sem itens.");
+            act.Should().Throw<DomainException>()
+                .WithMessage("Não é possível iniciar o pagamento de um pedido sem itens.");
         }
 
         [Fact(DisplayName = "Não deve iniciar pagamento se houver pagamento pendente")]
@@ -224,8 +232,8 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
 
             Action act = () => pedido.IniciarPagamento(MetodoPagamento.CartaoCredito);
 
-           // act.Should().Throw<DomainException>()
-               // .WithMessage("Já existe um pagamento para o pedido.");
+           act.Should().Throw<DomainException>()
+               .WithMessage("Já existe um pagamento para o pedido.");
         }
 
         [Fact(DisplayName = "Deve alterar status para PagamentoConfirmado ao HandlePagamentoAprovado")]
@@ -263,7 +271,8 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
 
             Action act = () => pedido.HandlePagamentoAprovado(pagamento.Id);
 
-            act.Should().Throw<DomainException>();// WithMessage("O pedido não está no status esperado para confirmação de pagamento.");
+            act.Should().Throw<DomainException>()
+                .WithMessage("O pedido não está no status esperado para confirmação de pagamento.");
 
         }
 
@@ -289,7 +298,8 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
 
             Action act = () => pedido.MarcarComoEmSeparacao();
 
-            act.Should().Throw<DomainException>();//.WithMessage("O pedido só pode ir pra Separação após o pagamento ser confirmado.");
+            act.Should().Throw<DomainException>()
+                .WithMessage("O pedido só pode ir pra Separação após o pagamento ser confirmado.");
         }
 
         [Fact(DisplayName = "Deve marcar como Enviado")]
@@ -311,7 +321,8 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
 
             Action act = () => pedido.MarcarComoEnviado();
 
-            act.Should().Throw<DomainException>();//.WithMessage("O pedido só pode ser Enviado após estar em separação.");
+            act.Should().Throw<DomainException>()
+            .WithMessage("O pedido só pode ser Enviado após estar em separação.");
         }
 
         [Fact(DisplayName = "Deve marcar pedido como Entregue")]
@@ -333,7 +344,8 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
 
             Action act = () => pedido.MarcarComoEntregue();
 
-            act.Should().Throw<DomainException>();//.WithMessage("O pedido só pode ser marcado como Entregue  após ser Enviado.");
+            act.Should().Throw<DomainException>()
+                .WithMessage("O pedido só pode ser marcado como Entregue  após ser Enviado.");
         }
 
         //Cancelamento
@@ -372,7 +384,8 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
 
             Action act = () => pedido.CancelarPedido();
 
-            act.Should().Throw<DomainException>();//.WithMessage("Não é possível cancelar um pedido que já está em separação ou posteriror.");
+            act.Should().Throw<DomainException>()
+                .WithMessage("Não é possível cancelar um pedido que já está em separação ou posteriror.");
         }
 
     }

@@ -1,10 +1,10 @@
 ﻿using FluentAssertions;
 using Vendas.Domain.Common.Exceptions;
-using Vendas.Domain.Pedidos.Entities;
+using Vendas.Domain.Pedidos;
 using Vendas.Domain.Pedidos.Enums;
 using Vendas.Domain.Pedidos.Events;
 
-namespace Vendas.Domain.Tests.Pedidos.Entities
+namespace Vendas.Domain.Tests.Pedidos
 {
     public class PagamentoTests
     {
@@ -32,8 +32,8 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
             var pedidoId = Guid.NewGuid();
             Action act = () => new Pagamento(pedidoId, MetodoPagamento.Pix, 0);
 
-            act.Should().Throw<DomainException>();
-                //.WithMessage("O valor do pagamento deve ser maior que zero.");
+            act.Should().Throw<DomainException>()
+                .WithMessage("O valor do pagamento deve ser maior que zero.");
         }
 
         [Fact(DisplayName = "Não Deve definir código de transação nulo ou vazio")]
@@ -43,8 +43,8 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
 
             Action act = () => pagamento.DefinirCodigoTransacao("");
 
-            act.Should().Throw<DomainException>();
-                //.WithMessage("Código da transação inválido.");
+            act.Should().Throw<DomainException>()
+                .WithMessage("Código da transação inválido.");
         }
 
         [Fact(DisplayName = "Deve definir código de transação válido")]
@@ -68,9 +68,9 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
 
             Action act = () => pagamento.DefinirCodigoTransacao("TRN-123441");
 
-            //act.Should()
-                //.Throw<DomainException>()
-                //.WithMessage("O código de transação já foi definido.");
+            act.Should()
+                .Throw<DomainException>()
+                .WithMessage("O código de transação já foi definido.");
         }
 
         [Fact(DisplayName = "Deve gerar código de transação local automaticamente")]
@@ -101,10 +101,10 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
             var evento = pagamento.DomainEvents.OfType<PagamentoAprovadoEvent>().First();
             evento.Should().NotBeNull();
             evento!.PagamentoId.Should().Be(pagamento.Id);
-            //evento.PedidoId.Should().Be(pagamento.Id);
-            //evento.Valor.Should().Be(pagamento.Valor);
-            //evento.CodigoTransacao.Should().Be(pagamento.CodigoTransacao);
-            //evento.DataPagamento.Should().Be(pagamento.DataPagamento);
+            evento.PedidoId.Should().Be(pagamento.Id);
+            evento.Valor.Should().Be(pagamento.Valor);
+            evento.CodigoTransacao.Should().Be(pagamento.CodigoTransacao);
+            evento.DataPagamento.Should().Be(pagamento.DataPagamento);
         }
 
         [Fact(DisplayName = "Não Deve confirmar pagamento sem código de transação")]
@@ -114,7 +114,8 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
 
             Action act = () => pagamento.ConfirmarPagamento();
 
-            act.Should().Throw<DomainException>();//.WithMessage("O pagamento não pode ser confirmado sem o código de transação.");
+            act.Should().Throw<DomainException>()
+                .WithMessage("O pagamento não pode ser confirmado sem o código de transação.");
         }
 
         [Fact(DisplayName = "Não Deve confirmar pagamento que está pendente")]
@@ -127,7 +128,8 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
 
             Action act = () => pagamento.ConfirmarPagamento();
 
-            act.Should().Throw<DomainException>();//.WithMessage("Apenas pagamentos pendentes podem ser confirmados.");
+            act.Should().Throw<DomainException>()
+                .WithMessage("Apenas pagamentos pendentes podem ser confirmados.");
         }
 
         [Fact(DisplayName = "Deve recusar pagamento pendente e gerar evento de rejeição com ocorrencia")]
@@ -160,7 +162,8 @@ namespace Vendas.Domain.Tests.Pedidos.Entities
 
             Action act = () => pagamento.RecusarPagamento();
 
-            act.Should().Throw<DomainException>();//.WithMessage("Apenas pagamentos pendentes podem ser recusados.");
+            act.Should().Throw<DomainException>()
+                .WithMessage("Apenas pagamentos pendentes podem ser recusados.");
         }
     }
 

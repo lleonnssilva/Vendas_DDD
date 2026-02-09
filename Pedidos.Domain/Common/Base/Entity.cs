@@ -36,7 +36,7 @@ namespace Vendas.Domain.Common.Base
 
         public static bool operator ==(Entity left, Entity right)
         {
-            if (ReferenceEquals(left, right))
+            if (ReferenceEquals(left, null))
                 return ReferenceEquals(right, null);
             return left.Equals(right);
         }

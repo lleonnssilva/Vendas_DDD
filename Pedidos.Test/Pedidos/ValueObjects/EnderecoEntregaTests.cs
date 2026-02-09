@@ -50,8 +50,8 @@ namespace Vendas.Domain.Tests.Pedidos.ValueObjects
 
 
             //Assert
-            act.Should().Throw<DomainException>();
-                //.WithMessage("CEP inválido*");
+            act.Should().Throw<DomainException>()
+                .WithMessage("CEP inválido*");
 
         }
 
@@ -115,8 +115,8 @@ namespace Vendas.Domain.Tests.Pedidos.ValueObjects
 
 
             //Assert
-            act.Should().Throw<DomainException>();
-               // .WithMessage("*não pode ser nulo ou vazio*");
+            act.Should().Throw<DomainException>()
+               .WithMessage("*não pode ser nulo ou vazio*");
 
         }
     }

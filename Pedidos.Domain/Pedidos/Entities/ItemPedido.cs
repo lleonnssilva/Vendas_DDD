@@ -2,7 +2,7 @@
 using Vendas.Domain.Common.Exceptions;
 using Vendas.Domain.Common.Validations;
 
-namespace Vendas.Domain.Pedidos.Entities
+namespace Vendas.Domain.Pedidos
 {
     public sealed class ItemPedido : Entity
     {
@@ -15,8 +15,8 @@ namespace Vendas.Domain.Pedidos.Entities
 
         internal ItemPedido(Guid produtoId, string nomeProduto, decimal precoUnitario, int quantidade)
         {
-            Guard.AgainstEmptyGuid(produtoId, nameof(produtoId), "ProdutoId inválido");
-            Guard.AgainstNullOrWhiteSpace(nomeProduto, nameof(nomeProduto), "O nome do produto é obrigatório");
+            Guard.AgainstEmptyGuid(produtoId, nameof(produtoId), "ProdutoId inválido.");
+            Guard.AgainstNullOrWhiteSpace(nomeProduto, nameof(nomeProduto), "O nome do produto é obrigatório.");
             Guard.Against<DomainException>(precoUnitario <= 0, "O preço unitário deve ser maior que zero.");
             Guard.Against<DomainException>(quantidade <= 0, "A quantidade deve ser maior que zero.");
 
@@ -32,8 +32,8 @@ namespace Vendas.Domain.Pedidos.Entities
 
         public void AplicarDesconto(decimal desconto)
         {
-            Guard.Against<DomainException>(desconto < 0, "Desconto não pode ser negativo");
-            Guard.Against<DomainException>(desconto > PrecoUnitario * Quantidade, "Desconto não pode exceder o valor toatal do item");
+            Guard.Against<DomainException>(desconto < 0, "Desconto não pode ser negativo.");
+            Guard.Against<DomainException>(desconto > PrecoUnitario * Quantidade, "Desconto não pode exceder o valor toatal do item.");
 
             DescontoAplicado = desconto;
             SetDataAtualizacao();
