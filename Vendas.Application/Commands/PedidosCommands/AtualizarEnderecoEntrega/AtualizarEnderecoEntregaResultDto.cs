@@ -2,7 +2,6 @@
 {
     public sealed class AtualizarEnderecoEntregaResultDto
     {
-
         public Guid PedidoId { get; }
         public string EnderecoEntrega { get; }
         public string Status { get; }

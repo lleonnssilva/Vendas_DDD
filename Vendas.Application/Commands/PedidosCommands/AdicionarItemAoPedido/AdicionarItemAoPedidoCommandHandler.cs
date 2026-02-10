@@ -14,7 +14,7 @@ namespace Vendas.Application.Commands.PedidosCommands.AdicionarItemAoPedido
         {
             var pedido = await _pedidoRepository.ObterPorIdAsync(command.PedidoId, cancellationToken);
             if (pedido is null)
-                throw new InvalidOperationException("Pedido não encontrado.");
+                throw new InvalidOperationException("Pedido não localizado.");
 
             pedido.AdicionarItem(
                 command.ProdutoId,

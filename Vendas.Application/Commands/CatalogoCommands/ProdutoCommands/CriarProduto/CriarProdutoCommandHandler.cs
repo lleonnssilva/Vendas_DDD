@@ -19,8 +19,9 @@ namespace Vendas.Application.Commands.CatalogoCommands.ProdutoCommands.CriarProd
         public async Task<CriarProdutoResultDto> HandleAsync(CriarProdutoCommand command, CancellationToken cancellationToken = default)
         {
             var categoria = await _categoriaRepository.ObterPorIdAsync(command.CategoriaId, cancellationToken) ??
-                throw new DomainException("Categoria não encontrada.");
+                throw new DomainException("Categoria não localizada.");
             Guard.Against<DomainException>(!categoria.Ativa, "Não é possível criar um produto em uma categoria inativa.");
+
             var nome = new NomeProduto(command.Nome);
             var codigo = new CodigoProduto(command.Codigo);
             var preco = new PrecoProduto(command.Preco);
@@ -38,8 +39,8 @@ namespace Vendas.Application.Commands.CatalogoCommands.ProdutoCommands.CriarProd
 
             return new CriarProdutoResultDto
             {
-                //ProdutoId = produto.Id,
-                //Status = produto.Status.toString(),
+                ProdutoId = produto.Id,
+                Status = produto.Status.ToString(),
             };
         }
 

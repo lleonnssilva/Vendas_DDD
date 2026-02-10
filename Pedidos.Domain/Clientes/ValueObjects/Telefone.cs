@@ -9,7 +9,7 @@ namespace Vendas.Domain.Clientes.ValueObjects
         public string Numero { get; }
         public Telefone(string numero)
         {
-            Guard.AgainstNullOrWhiteSpace(numero, nameof(numero), "O telefone é obrigatóriuo.");
+            Guard.AgainstNullOrWhiteSpace(numero, nameof(numero), "O telefone é obrigatório.");
 
             var digits = new string(numero.Where(char.IsDigit).ToArray());
             Guard.Against<DomainException>(

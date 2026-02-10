@@ -16,7 +16,7 @@ namespace Vendas.Application.Commands.PedidosCommands.IniciarPagamento
             IniciarPagamentoCommand command, CancellationToken cancellationToken = default)
         {
             var pedido = await _pedidoRepository.ObterPorIdAsync(command.PedidoId, cancellationToken)
-                ?? throw new DomainException("Pedido não encontrado");
+                ?? throw new DomainException("Pedido não localizado");
 
 
             var pagamento = pedido.IniciarPagamento(command.MetodoPagamento);

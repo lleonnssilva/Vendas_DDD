@@ -2,11 +2,11 @@
 {
     public sealed class InativarCategoriaCommand
     {
+        public Guid CategoriaId { get; }
         public InativarCategoriaCommand(Guid categoriaId)
         {
             CategoriaId = categoriaId;
         }
-
-        public Guid CategoriaId { get; }
+        
     }
 }

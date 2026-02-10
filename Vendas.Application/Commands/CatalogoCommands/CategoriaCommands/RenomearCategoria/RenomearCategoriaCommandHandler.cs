@@ -15,7 +15,7 @@ namespace Vendas.Application.Commands.CatalogoCommands.CategoriaCommands.Renomea
         public async Task<RenomearCategoriaResultDto> HandleAsync(RenomearCategoriaCommand command, CancellationToken cancellationToken = default)
         {
             var categoria = await _categoriaRepository.ObterPorIdAsync(command.CategoriaId, cancellationToken) ??
-                throw new DomainException("CaAtegoria não localizada.");
+                throw new DomainException("Categoria não localizada.");
 
             categoria.AlterarNome(command.NovaCategoria);
             await _categoriaRepository.AtualizarAsync(categoria, cancellationToken);

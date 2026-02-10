@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Vendas.Application.Abstractions.Persistence;
-using Vendas.Domain.Catalogo;
+﻿using Vendas.Application.Abstractions.Persistence;
 using Vendas.Domain.Common.Exceptions;
 
 namespace Vendas.Application.Commands.CatalogoCommands.ProdutoCommands.AjustarEstoque

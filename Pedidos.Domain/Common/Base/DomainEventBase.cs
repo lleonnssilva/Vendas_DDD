@@ -4,6 +4,6 @@ namespace Vendas.Domain.Common.Base
 {
     public abstract record class DomainEventBase : IDomainEvent
     {
-        public DateTime DateOccurreed { get; protected set; }=DateTime.UtcNow;
+        public DateTime DateOccurreed { get; protected set; } = DateTime.UtcNow;
     }
 }

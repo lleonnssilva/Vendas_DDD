@@ -13,7 +13,7 @@ namespace Vendas.Domain.Catalogo
 
         public Categoria(string nome, string? descricao = null)
         {
-            Guard.AgainstNullOrWhiteSpace(nome, nameof(nome), "Nome é obbrigatório.");
+            Guard.AgainstNullOrWhiteSpace(nome, nameof(nome), "Nome é obrigatório.");
             Guard.Against<DomainException>(nome.Length < 3, "Nome deve ter pelo menos 3 caracteres.");
 
             Nome = nome;

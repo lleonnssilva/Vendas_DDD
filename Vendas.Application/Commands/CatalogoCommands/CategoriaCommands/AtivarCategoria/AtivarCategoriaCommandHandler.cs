@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Vendas.Application.Abstractions.Persistence;
-using Vendas.Domain.Catalogo;
+﻿using Vendas.Application.Abstractions.Persistence;
 using Vendas.Domain.Common.Exceptions;
 
 namespace Vendas.Application.Commands.CatalogoCommands.CategoriaCommands.AtivarCategoria
@@ -20,7 +14,7 @@ namespace Vendas.Application.Commands.CatalogoCommands.CategoriaCommands.AtivarC
         public async Task<AtivarCategoriaResultDto> HandleAsync(AtivarCategoriaCommand command, CancellationToken cancellationToken = default)
         {
             var categoria = await _categoriaRepository.ObterPorIdAsync(command.CategoriaId, cancellationToken) ??
-                throw new DomainException("CaAtegoria não localizada.");
+                throw new DomainException("Categoria não localizada.");
 
             categoria.Ativar();
             await _categoriaRepository.AtualizarAsync(categoria, cancellationToken);

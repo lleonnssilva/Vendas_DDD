@@ -2,6 +2,8 @@
 {
     public sealed class RenomearCategoriaCommand
     {
+        public Guid CategoriaId { get; }
+        public string NovaCategoria { get; }
         public RenomearCategoriaCommand(
             Guid categoriaId,
             string novaCategoria)
@@ -9,8 +11,6 @@
             CategoriaId = categoriaId;
             NovaCategoria = novaCategoria;
         }
-
-        public Guid CategoriaId { get; }
-        public string NovaCategoria { get; }
+        
     }
 }

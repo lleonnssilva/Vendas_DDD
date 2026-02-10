@@ -2,11 +2,10 @@
 {
     public sealed class MarcarPedidoComoEnviadoCommand
     {
+        public Guid PedidoId { get; }
         public MarcarPedidoComoEnviadoCommand(Guid pedidoId)
         {
             PedidoId = pedidoId;
         }
-
-        public Guid PedidoId { get; }
     }
 }

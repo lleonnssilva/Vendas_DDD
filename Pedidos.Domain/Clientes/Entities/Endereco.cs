@@ -73,12 +73,12 @@ namespace Vendas.Domain.Clientes
             Guard.Against<DomainException>(!Regex.IsMatch(cep, @"^\d{8}$"), "O CEP é inválido.");
             Guard.AgainstNullOrWhiteSpace(logradouro,nameof(logradouro), "O logradouro é obrigatório.");
             Guard.Against<DomainException>(logradouro.Length <3, "O logradouro  é muito curto.");
-            Guard.AgainstNullOrWhiteSpace(numero, nameof(numero), "O número é origatório.");
+            Guard.AgainstNullOrWhiteSpace(numero, nameof(numero), "O número é obrigatório.");
             Guard.Against<DomainException>(numero.Length == 0, "O número  é inválido.");
-            Guard.AgainstNullOrWhiteSpace(bairro, nameof(bairro), "O bairro é origatório.");
-            Guard.AgainstNullOrWhiteSpace(cidade, nameof(cidade), "A cidade é origatório.");
-            Guard.AgainstNullOrWhiteSpace(estado, nameof(estado), "O estado é origatório.");
-            Guard.AgainstNullOrWhiteSpace(pais, nameof(pais), "O país é origatório.");
+            Guard.AgainstNullOrWhiteSpace(bairro, nameof(bairro), "O bairro é obrigatório.");
+            Guard.AgainstNullOrWhiteSpace(cidade, nameof(cidade), "A cidade é obrigatório.");
+            Guard.AgainstNullOrWhiteSpace(estado, nameof(estado), "O estado é obrigatório.");
+            Guard.AgainstNullOrWhiteSpace(pais, nameof(pais), "O país é obrigatório.");
         }
 
 

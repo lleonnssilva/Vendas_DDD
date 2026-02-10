@@ -58,7 +58,7 @@ namespace Vendas.Domain.Clientes
         public void RemoverEndereco(Guid enderecoId)
         {
             var endereco = _enderecos.FirstOrDefault(e => e.Id == enderecoId);
-            Guard.AgainstNull(endereco, nameof(endereco), "Endereço não encontrado.");
+            Guard.AgainstNull(endereco, nameof(endereco), "Endereço não localizado.");
 
             Guard.Against<DomainException>(_enderecos.Count == 1, "O cliente deve possuir ao menos um endereço.");
 
@@ -85,7 +85,7 @@ namespace Vendas.Domain.Clientes
             string complemento = "")
         {
             var endereco = _enderecos.FirstOrDefault(e => e.Id == enderecoId);
-            Guard.AgainstNull(endereco, nameof(endereco), "Endereço não encontrado.");
+            Guard.AgainstNull(endereco, nameof(endereco), "Endereço não localizado.");
 
             endereco!.Atualizar(cep, logradouro, numero, bairro, cidade, estado, pais, complemento);
             SetDataAtualizacao();
@@ -94,7 +94,7 @@ namespace Vendas.Domain.Clientes
         public void DefinirEnderecoPrincipal(Guid enderecoId)
         {
             var endereco = _enderecos.FirstOrDefault(e => e.Id == enderecoId);
-            Guard.AgainstNull(endereco, nameof(endereco), "Endereço não encontrado.");
+            Guard.AgainstNull(endereco, nameof(endereco), "Endereço não localizado.");
 
             EnderecoPrincipalId = endereco!.Id;
             AddDomainEvent(new EnderecoPrincipalAlteradoEvent(
@@ -116,7 +116,7 @@ namespace Vendas.Domain.Clientes
             Sexo sexo,
             EstadoCivil estadoCivil)
         {
-            Guard.Against<DomainException>(Status == StatusCliente.Bloqueado, "Clientes bloqueados não podem atualizar o peril.");
+            Guard.Against<DomainException>(Status == StatusCliente.Bloqueado, "Clientes bloqueados não podem atualizar o perfil.");
             Guard.AgainstNull(nome, nameof(nome));
             Guard.AgainstNull(email, nameof(email));
             Guard.AgainstNull(telefone, nameof(telefone));
@@ -162,7 +162,7 @@ namespace Vendas.Domain.Clientes
             Guard.AgainstNull(cpf, nameof(cpf));
             Guard.AgainstNull(email, nameof(email));
             Guard.AgainstNull(telefone, nameof(telefone));
-            Guard.AgainstNull(endereco, nameof(endereco), "O cliente deve ter um endereço principa.");
+            Guard.AgainstNull(endereco, nameof(endereco), "O cliente deve ter um endereço principal.");
 
         }
     }

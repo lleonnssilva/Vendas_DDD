@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Vendas.Application.Abstractions.Persistence;
+﻿using Vendas.Application.Abstractions.Persistence;
 using Vendas.Domain.Common.Exceptions;
 using Vendas.Domain.Pedidos.ValueObjects;
 
@@ -20,7 +15,7 @@ namespace Vendas.Application.Commands.PedidosCommands.CancelarPedido
 
         public async Task<CancelarPedidoResultDto> HandlerAsync(CancelarPedidoCommand command, CancellationToken cancellationToken = default)
         {
-            var pedido = await _pedidoRepository.ObterPorIdAsync(command.PedidoId) ?? throw new DomainException("Pedido não encontrado.");
+            var pedido = await _pedidoRepository.ObterPorIdAsync(command.PedidoId) ?? throw new DomainException("Pedido não localizado.");
 
             var motivo = new MotivoCancelamento(command.CodigoMotivo);
 

@@ -16,7 +16,7 @@ namespace Vendas.Application.Commands.PedidosCommands.RemoverItemDoPedido
             var pedido = await _pedidoRepository.ObterPorIdAsync(command.PedidoId, cancellationToken);
 
             if(pedido is null)
-                throw new InvalidOperationException("Pedido não encontrado");
+                throw new InvalidOperationException("Pedido não localizado");
 
             pedido.RemoverItem(command.ItemId);
 

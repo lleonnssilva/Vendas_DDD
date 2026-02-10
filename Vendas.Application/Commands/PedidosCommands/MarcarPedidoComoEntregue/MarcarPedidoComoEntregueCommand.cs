@@ -2,11 +2,10 @@
 {
     public sealed class MarcarPedidoComoEntregueCommand
     {
+        public Guid PedidoId { get; }
         public MarcarPedidoComoEntregueCommand(Guid pedidoId)
         {
             PedidoId = pedidoId;
         }
-
-        public Guid PedidoId { get; }
     }
 }
