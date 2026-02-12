@@ -1,9 +1,10 @@
 ﻿using Vendas.Application.Abstractions.Persistence;
+using Vendas.Application.Mediator.Interfaces;
 using Vendas.Domain.Common.Exceptions;
 
 namespace Vendas.Application.Commands.PedidosCommands.IniciarPagamento
 {
-    public sealed class IniciarPagamentoCommandHandler
+    public sealed class IniciarPagamentoCommandHandler:IRequestHandler<IniciarPagamentoCommand, IniciarPagamentoResultDto>
     {
         private readonly IPedidoRepository _pedidoRepository;
 
@@ -12,7 +13,7 @@ namespace Vendas.Application.Commands.PedidosCommands.IniciarPagamento
             _pedidoRepository = pedidoRepository;
         }
 
-        public async Task<IniciarPagamentoResultDto> HandlerAsync(
+        public async Task<IniciarPagamentoResultDto> HandleAsync(
             IniciarPagamentoCommand command, CancellationToken cancellationToken = default)
         {
             var pedido = await _pedidoRepository.ObterPorIdAsync(command.PedidoId, cancellationToken)

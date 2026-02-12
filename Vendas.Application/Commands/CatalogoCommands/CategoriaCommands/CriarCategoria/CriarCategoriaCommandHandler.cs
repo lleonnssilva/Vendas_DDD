@@ -1,9 +1,10 @@
 ﻿using Vendas.Application.Abstractions.Persistence;
+using Vendas.Application.Mediator.Interfaces;
 using Vendas.Domain.Catalogo;
 
 namespace Vendas.Application.Commands.CatalogoCommands.CategoriaCommands.CriarCategoria
 {
-    public sealed class CriarCategoriaCommandHandler
+    public sealed class CriarCategoriaCommandHandler : IRequestHandler<CriarCategoriaCommand, CriarCategoriaResultDto>
     {
         private readonly ICategoriaRepository _categoriaRepository;
 
@@ -12,16 +13,14 @@ namespace Vendas.Application.Commands.CatalogoCommands.CategoriaCommands.CriarCa
             _categoriaRepository = categoriaRepository;
         }
 
-        public async Task<CriarCategoriaResultDto> HandleAsync(CriarCategoriaCommand command, CancellationToken cancellationToken = default)
+        public async Task<CriarCategoriaResultDto> HandleAsync(CriarCategoriaCommand command, CancellationToken cancellationToken)
         {
-
             var categoria = new Categoria(
-                command.Nome,
-                command.Descricao
-                );
+               command.Nome,
+               command.Descricao
+               );
 
             await _categoriaRepository.AdicionarAsync(categoria, cancellationToken);
-
             return new CriarCategoriaResultDto
             {
                 Nome = categoria.Nome,

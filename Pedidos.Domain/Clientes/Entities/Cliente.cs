@@ -21,7 +21,10 @@ namespace Vendas.Domain.Clientes
 
         private readonly List<Endereco> _enderecos = new();
         public IReadOnlyCollection<Endereco> Enderecos => _enderecos.AsReadOnly();
+        private Cliente()
+        {
 
+        }
         public Cliente(
             NomeCompleto nome,
             Cpf cpf,

@@ -1,11 +1,11 @@
 ﻿using Vendas.Application.Abstractions.Persistence;
-using Vendas.Application.Commands.PedidosCommands.MarcarPedidoComoEnviado;
+using Vendas.Application.Mediator.Interfaces;
 using Vendas.Domain.Common.Exceptions;
 
 namespace Vendas.Application.Commands.PedidosCommands.MarcarPedidoComoEntregue
 {
 
-    public sealed class MarcarPedidoComoEntregueCommandHandler
+    public sealed class MarcarPedidoComoEntregueCommandHandler : IRequestHandler<MarcarPedidoComoEntregueCommand, MarcarPedidoComoEntregueResultDto>
     {
         private readonly IPedidoRepository _pedidoRepository;
 
@@ -14,10 +14,10 @@ namespace Vendas.Application.Commands.PedidosCommands.MarcarPedidoComoEntregue
             _pedidoRepository = pedidoRepository;
         }
 
-        public async Task<MarcarPedidoComoEntregueResultDto> HandlerAsync(MarcarPedidoComoEnviadoCommand command, CancellationToken cancellationToken = default)
+        public async Task<MarcarPedidoComoEntregueResultDto> HandleAsync(MarcarPedidoComoEntregueCommand command, CancellationToken cancellationToken)
         {
             var pedido = await _pedidoRepository.ObterPorIdAsync(command.PedidoId, cancellationToken) ??
-                throw new DomainException("Pedido não localizado.");
+               throw new DomainException("Pedido não localizado.");
 
             pedido.MarcarComoEntregue();
 
@@ -29,5 +29,6 @@ namespace Vendas.Application.Commands.PedidosCommands.MarcarPedidoComoEntregue
                 StatusPedido = pedido.StatusPedido.ToString()
             };
         }
+     
     }
 }

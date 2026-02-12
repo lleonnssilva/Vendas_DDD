@@ -4,7 +4,7 @@ using Vendas.Infra.Context;
 
 namespace Vendas.Infra.Repositories
 {
-    internal class PedidoRepository : IPedidoRepository
+    public class PedidoRepository : IPedidoRepository
     {
         protected readonly AppDbContext _dbContext;
 
@@ -26,6 +26,7 @@ namespace Vendas.Infra.Repositories
 
         public async Task<Pedido?> ObterPorIdAsync(Guid pedidoId, CancellationToken cancellationToken = default)
         {
+
             return await _dbContext.Pedidos.FindAsync(pedidoId);
         }
     }

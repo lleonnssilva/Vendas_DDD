@@ -1,6 +1,9 @@
-﻿namespace Vendas.Application.Commands.CatalogoCommands.CategoriaCommands.CriarCategoria
+﻿using Vendas.Application.Mediator.Interfaces;
+
+namespace Vendas.Application.Commands.CatalogoCommands.CategoriaCommands.CriarCategoria
 {
-    public sealed class CriarCategoriaCommand
+    public sealed class CriarCategoriaCommand : IRequest<CriarCategoriaResultDto>
+
     {
         public string Nome { get; private set; }
         public string? Descricao { get; private set; }

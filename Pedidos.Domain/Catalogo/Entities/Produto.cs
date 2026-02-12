@@ -18,7 +18,7 @@ namespace Vendas.Domain.Catalogo
         public int Estoque { get; private set; }
         private readonly List<ImagemProduto> _imagens = new();
         public IReadOnlyCollection<ImagemProduto> Imagens => _imagens.AsReadOnly();
-
+        private Produto() { }
         public Produto(NomeProduto nome,
             CodigoProduto codigo,
             PrecoProduto preco,
@@ -104,16 +104,16 @@ namespace Vendas.Domain.Catalogo
 
         }
 
-        public void AdicionarImagem( ImagemProduto imagem)
+        public void AdicionarImagem(ImagemProduto imagem)
         {
-            Guard.AgainstNull(imagem, nameof(imagem));
-            Guard.Against<DomainException>(
-                _imagens.Any(i => i.Ordem == imagem.Ordem), "Já existe uma imagem com esta ordem.");
+            //Guard.AgainstNull(imagem, nameof(imagem));
+            //Guard.Against<DomainException>(
+            //    _imagens.Any(i => i.Ordem == imagem.Ordem), "Já existe uma imagem com esta ordem.");
 
-            _imagens.Add(imagem);
-            SetDataAtualizacao();
+            //_imagens.Add(imagem);
+            //SetDataAtualizacao();
 
-            AddDomainEvent(new ImagemAdicionadaEvent(Id,imagem.Url,imagem.Ordem));
+            //AddDomainEvent(new ImagemAdicionadaEvent(Id,imagem.Url,imagem.Ordem));
         }
     }
 }

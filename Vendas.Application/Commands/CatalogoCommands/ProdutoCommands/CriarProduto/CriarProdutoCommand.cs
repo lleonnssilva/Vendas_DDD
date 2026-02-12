@@ -1,6 +1,8 @@
-﻿namespace Vendas.Application.Commands.CatalogoCommands.ProdutoCommands.CriarProduto
+﻿using Vendas.Application.Mediator.Interfaces;
+
+namespace Vendas.Application.Commands.CatalogoCommands.ProdutoCommands.CriarProduto
 {
-    public sealed class CriarProdutoCommand
+    public sealed class CriarProdutoCommand : IRequest<CriarProdutoResultDto>
     {
         public string Nome { get; }
         public string Codigo { get; }

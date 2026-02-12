@@ -10,7 +10,9 @@ namespace Vendas.Domain.Clientes.ValueObjects
     public sealed class Email : ValueObject
     {
         public string Endereco { get; }
-        private static readonly Regex _regex = new(@"^[\w\.-]+[\w\.-]\.+\w{2,}$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        //private static readonly Regex _regex = new(@"^[\w\.-]+[\w\.-]\.+\w{2,}$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex _regex = new(@"^[\w\.-]+@[\w\.-]+\.\w{2,}$",RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
         public Email(string endereco)
         {
             Guard.AgainstNullOrWhiteSpace(endereco, nameof(endereco), "O email é obrigatório.");

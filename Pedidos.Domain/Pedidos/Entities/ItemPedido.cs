@@ -12,7 +12,7 @@ namespace Vendas.Domain.Pedidos
         public int Quantidade { get; private set; }
         public decimal DescontoAplicado { get; private set; }
         public decimal ValorTotal { get; private set; }
-
+        private ItemPedido(){}
         internal ItemPedido(Guid produtoId, string nomeProduto, decimal precoUnitario, int quantidade)
         {
             Guard.AgainstEmptyGuid(produtoId, nameof(produtoId), "ProdutoId inválido.");

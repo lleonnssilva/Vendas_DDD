@@ -18,9 +18,9 @@ namespace Vendas.Domain.Tests.Pedidos.ValueObjects
             var estado = "SP";
             var cidade = "Guarulhos";
             var pais = "Brasil";
-
+            var numero = "33";
             //Act
-            var endereco = EnderecoEntrega.Criar(cep, logradouro, complemento, bairro, estado, cidade, pais);
+            var endereco = EnderecoEntrega.Criar(cep, logradouro, complemento, bairro, estado, cidade, pais,numero);
 
 
             //Assert
@@ -44,9 +44,9 @@ namespace Vendas.Domain.Tests.Pedidos.ValueObjects
             var estado = "SP";
             var cidade = "Guarulhos";
             var pais = "Brasil";
-
+            var numero = "33";
             //Act
-           Action act =()=> EnderecoEntrega.Criar(cepInvalido, logradouro, complemento, bairro, estado, cidade, pais);
+           Action act =()=> EnderecoEntrega.Criar(cepInvalido, logradouro, complemento, bairro, estado, cidade, pais,numero);
 
 
             //Assert
@@ -59,8 +59,8 @@ namespace Vendas.Domain.Tests.Pedidos.ValueObjects
         public void EnderecosDevemSerIguais_QuandoPossuemMesmosValores()
         {
             //Arrange
-            var endereco1 = EnderecoEntrega.Criar("07140-230", "Rua X", "Casa", "Centro", "SP", "Guarulhos", "Brasil");
-            var endereco2 = EnderecoEntrega.Criar("07140-230", "Rua X", "Casa", "Centro", "SP", "Guarulhos", "Brasil");
+            var endereco1 = EnderecoEntrega.Criar("07140-230", "Rua X", "Casa", "Centro", "SP", "Guarulhos", "Brasil", "33");
+            var endereco2 = EnderecoEntrega.Criar("07140-230", "Rua X", "Casa", "Centro", "SP", "Guarulhos", "Brasil", "33");
 
 
             //Assert
@@ -73,8 +73,8 @@ namespace Vendas.Domain.Tests.Pedidos.ValueObjects
         public void EnderecosDevemSerDiferentes_QuandoAlgumCampoForDiferente()
         {
             //Arrange
-            var endereco1 = EnderecoEntrega.Criar("07140-230", "Rua X", "Casa", "Centro", "SP", "Guarulhos", "Brasil");
-            var endereco2 = EnderecoEntrega.Criar("07140-230", "Rua Y", "Casa", "Centro", "SP", "Guarulhos", "Brasil");
+            var endereco1 = EnderecoEntrega.Criar("07140-230", "Rua X", "Casa", "Centro", "SP", "Guarulhos", "Brasil", "33");
+            var endereco2 = EnderecoEntrega.Criar("07140-230", "Rua Y", "Casa", "Centro", "SP", "Guarulhos", "Brasil", "33");
 
 
             //Assert
@@ -87,7 +87,7 @@ namespace Vendas.Domain.Tests.Pedidos.ValueObjects
         public void EnderecoDeveSerImutavel_AposCriacao()
         {
             //Arrange
-            var endereco = EnderecoEntrega.Criar("07140-230", "Rua X", "Casa", "Centro", "SP", "Guarulhos", "Brasil");
+            var endereco = EnderecoEntrega.Criar("07140-230", "Rua X", "Casa", "Centro", "SP", "Guarulhos", "Brasil", "33");
 
             //Act
             Action act = () =>
@@ -104,14 +104,14 @@ namespace Vendas.Domain.Tests.Pedidos.ValueObjects
         }
 
         [Theory(DisplayName = "Deve lançar Domain Excpetion quando camppos obrigatórios forem nulos ou vazios")]
-        [InlineData(null,"Logradouro","Bairro","Estado","Cidade","Pais")]
-        [InlineData("07140-230", null, "Bairro", "Estado", "Cidade", "Pais")]
-        [InlineData("07140-230", "Logradouro", "Bairro", "Estado", "Cidade", null)]
-        public void Criar_DeveLancarDomainException_QuandoCamposOrigatoriosulosOuVazios(string cep, string logradouro, string bairro, string estado, string cidade, string pais)
+        [InlineData(null,"Logradouro","Bairro","Estado","Cidade","Pais","33")]
+        [InlineData("07140-230", null, "Bairro", "Estado", "Cidade", "Pais","33")]
+        [InlineData("07140-230", "Logradouro", "Bairro", "Estado", "Cidade", null,"33")]
+        public void Criar_DeveLancarDomainException_QuandoCamposOrigatoriosulosOuVazios(string cep, string logradouro, string bairro, string estado, string cidade, string pais, string numero)
         {
          
             //Act
-            Action act = () => EnderecoEntrega.Criar(cep, logradouro, "complemento", bairro, estado, cidade, pais);
+            Action act = () => EnderecoEntrega.Criar(cep, logradouro, "complemento", bairro, estado, cidade, pais, numero);
 
 
             //Assert

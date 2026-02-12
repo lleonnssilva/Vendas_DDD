@@ -17,7 +17,10 @@
     <Folder Include="Commands\ClientesCommands\AtualizarPerfilDoCliente\" />
     <Folder Include="Commands\ClientesCommands\BloquearCliente\" />
     <Folder Include="Commands\ClientesCommands\AtivarCliente\" />
-    <Folder Include="Commands\ClientesCommands\CriarCliente\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
   </ItemGroup>
 
 </Project>

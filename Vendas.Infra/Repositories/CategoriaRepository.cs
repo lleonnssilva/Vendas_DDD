@@ -1,0 +1,32 @@
+﻿using Vendas.Application.Abstractions.Persistence;
+using Vendas.Domain.Catalogo;
+using Vendas.Infra.Context;
+
+namespace Vendas.Infra.Repositories
+{
+    public class CategoriaRepository : ICategoriaRepository
+    {
+        protected readonly AppDbContext _dbContext;
+
+        public CategoriaRepository(AppDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+        public async Task AdicionarAsync(Categoria categoria, CancellationToken cancellationToken = default)
+        {
+            await _dbContext.AddAsync(categoria);
+            _dbContext.SaveChanges();
+        }
+
+        public async Task AtualizarAsync(Categoria categoria, CancellationToken cancellationToken = default)
+        {
+            _dbContext.Categorias.Update(categoria);
+            _dbContext.SaveChanges();
+        }
+
+        public async Task<Categoria?> ObterPorIdAsync(Guid categoriaId, CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Categorias.FindAsync(categoriaId);
+        }
+    }
+}

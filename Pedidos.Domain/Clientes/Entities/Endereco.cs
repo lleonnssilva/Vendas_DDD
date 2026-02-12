@@ -5,6 +5,7 @@ using Vendas.Domain.Common.Validations;
 
 namespace Vendas.Domain.Clientes
 {
+
     public sealed class Endereco : Entity
     {
         public string Cep { get; private set; }
@@ -15,7 +16,7 @@ namespace Vendas.Domain.Clientes
         public string Estado { get; private set; }
         public string Pais { get; private set; }
         public string Complemento { get; private set; }
-
+        public Endereco() { }
         public Endereco(
             string cep,
             string logradouro,

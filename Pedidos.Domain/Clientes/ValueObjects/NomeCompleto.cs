@@ -9,6 +9,7 @@ namespace Vendas.Domain.Clientes.ValueObjects
         public string Nome { get; }
         public string Sobrenome { get; }
         public string NomeCompletoFormatado { get; }
+        private NomeCompleto() { }
         public NomeCompleto(string nomeCompleto)
         {
             Guard.AgainstNullOrWhiteSpace(nomeCompleto, nameof(nomeCompleto), "O nome completo é obrigatório.");

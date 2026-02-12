@@ -1,11 +1,12 @@
 ﻿using Vendas.Application.Abstractions.Persistence;
+using Vendas.Application.Mediator.Interfaces;
 using Vendas.Domain.Catalogo;
 using Vendas.Domain.Catalogo.ValueObjects;
 using Vendas.Domain.Common.Exceptions;
 using Vendas.Domain.Common.Validations;
 namespace Vendas.Application.Commands.CatalogoCommands.ProdutoCommands.CriarProduto
 {
-    public sealed class CriarProdutoCommandHandler
+    public sealed class CriarProdutoCommandHandler : IRequestHandler<CriarProdutoCommand, CriarProdutoResultDto>
     {
         private readonly IProdutoRepository _produtoRepository;
         private readonly ICategoriaRepository _categoriaRepository;

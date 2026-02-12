@@ -21,7 +21,7 @@ namespace Vendas.Domain.Pedidos
 
         private readonly List<Pagamento> _pagamentos = new();
         public ReadOnlyCollection<Pagamento> Pagamentos => _pagamentos.AsReadOnly();
-
+        private Pedido() { }
         private Pedido(Guid clienteId, EnderecoEntrega enderecoEntrega)
         {
             Guard.AgainstEmptyGuid(clienteId, nameof(clienteId), "ClienteId inválido");
