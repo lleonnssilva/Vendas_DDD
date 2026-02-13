@@ -1,6 +1,8 @@
-﻿namespace Vendas.Application.Commands.PedidosCommands.CancelarPedido
+﻿using Vendas.Application.Mediator.Interfaces;
+
+namespace Vendas.Application.Commands.PedidosCommands.CancelarPedido
 {
-    public sealed class CancelarPedidoCommand
+    public sealed class CancelarPedidoCommand:IRequest<CancelarPedidoResultDto>
     {
         public Guid PedidoId { get; init; }
         public string CodigoMotivo { get; init; }

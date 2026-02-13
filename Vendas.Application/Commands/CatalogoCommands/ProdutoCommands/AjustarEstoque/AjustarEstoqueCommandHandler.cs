@@ -1,9 +1,10 @@
 ﻿using Vendas.Application.Abstractions.Persistence;
+using Vendas.Application.Mediator.Interfaces;
 using Vendas.Domain.Common.Exceptions;
 
 namespace Vendas.Application.Commands.CatalogoCommands.ProdutoCommands.AjustarEstoque
 {
-    public sealed class AjustarEstoqueCommandHandler
+    public sealed class AjustarEstoqueCommandHandler : IRequestHandler<AjustarEstoqueCommand, AjustarEstoqueResultDto>
     {
         private readonly IProdutoRepository _produtoRepository;
 

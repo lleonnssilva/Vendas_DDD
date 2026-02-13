@@ -24,7 +24,7 @@ namespace Vendas.Domain.Catalogo
 
         public void AlterarNome(string novoNome)
         {
-            Guard.AgainstNullOrWhiteSpace(novoNome, nameof(novoNome), "Nome é obbrigatório.");
+            Guard.AgainstNullOrWhiteSpace(novoNome, nameof(novoNome), "Nome é obrigatório.");
             Guard.Against<DomainException>(novoNome.Length < 3, "Nome deve ter pelo menos 3 caracteres.");
 
             Nome = novoNome.Trim();

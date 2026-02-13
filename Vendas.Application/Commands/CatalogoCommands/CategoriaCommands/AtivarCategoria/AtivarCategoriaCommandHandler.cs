@@ -1,9 +1,10 @@
 ﻿using Vendas.Application.Abstractions.Persistence;
+using Vendas.Application.Mediator.Interfaces;
 using Vendas.Domain.Common.Exceptions;
 
 namespace Vendas.Application.Commands.CatalogoCommands.CategoriaCommands.AtivarCategoria
 {
-    public sealed class AtivarCategoriaCommandHandler
+    public sealed class AtivarCategoriaCommandHandler : IRequestHandler<AtivarCategoriaCommand, AtivarCategoriaResultDto>
     {
         private readonly ICategoriaRepository _categoriaRepository;
 

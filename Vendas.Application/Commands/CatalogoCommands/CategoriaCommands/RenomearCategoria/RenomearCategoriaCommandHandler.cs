@@ -1,9 +1,10 @@
 ﻿using Vendas.Application.Abstractions.Persistence;
+using Vendas.Application.Mediator.Interfaces;
 using Vendas.Domain.Common.Exceptions;
 
 namespace Vendas.Application.Commands.CatalogoCommands.CategoriaCommands.RenomearCategoria
 {
-    public sealed class RenomearCategoriaCommandHandler
+    public sealed class RenomearCategoriaCommandHandler: IRequestHandler<RenomearCategoriaCommand, RenomearCategoriaResultDto>
     {
 
         private readonly ICategoriaRepository _categoriaRepository;

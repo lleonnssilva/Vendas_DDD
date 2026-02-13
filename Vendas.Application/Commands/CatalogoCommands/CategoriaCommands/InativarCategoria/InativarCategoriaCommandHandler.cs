@@ -1,9 +1,10 @@
 ﻿using Vendas.Application.Abstractions.Persistence;
+using Vendas.Application.Mediator.Interfaces;
 using Vendas.Domain.Common.Exceptions;
 
 namespace Vendas.Application.Commands.CatalogoCommands.CategoriaCommands.AtivarCategoria
 {
-    public sealed class InativarCategoriaCommandHandler
+    public sealed class InativarCategoriaCommandHandler : IRequestHandler<InativarCategoriaCommand, InativarCategoriaResultDto>
     {
         private readonly ICategoriaRepository _categoriaRepository;
 
@@ -11,7 +12,8 @@ namespace Vendas.Application.Commands.CatalogoCommands.CategoriaCommands.AtivarC
         {
             _categoriaRepository = categoriaRepository;
         }
-        public async Task<InativarCategoriaResultDto> HandleAsync(AtivarCategoriaCommand command, CancellationToken cancellationToken = default)
+
+        public async Task<InativarCategoriaResultDto> HandleAsync(InativarCategoriaCommand command, CancellationToken cancellationToken)
         {
             var categoria = await _categoriaRepository.ObterPorIdAsync(command.CategoriaId, cancellationToken) ??
                 throw new DomainException("Categoria não localizada.");

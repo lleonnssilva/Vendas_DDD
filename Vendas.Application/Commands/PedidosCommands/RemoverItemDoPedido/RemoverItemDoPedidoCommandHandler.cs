@@ -1,8 +1,9 @@
 ﻿using Vendas.Application.Abstractions.Persistence;
+using Vendas.Application.Mediator.Interfaces;
 
 namespace Vendas.Application.Commands.PedidosCommands.RemoverItemDoPedido
 {
-    public sealed class RemoverItemDoPedidoCommandHandler
+    public sealed class RemoverItemDoPedidoCommandHandler:IRequestHandler<RemoverItemDoPedidoCommand,RemoverItemDoPedidoResultDto>
     {
         private readonly IPedidoRepository _pedidoRepository;
 
@@ -11,11 +12,11 @@ namespace Vendas.Application.Commands.PedidosCommands.RemoverItemDoPedido
             _pedidoRepository = pedidoRepository;
         }
 
-    public async Task<RemoverItemDoPedidoResultDto> HandlerAsync(RemoverItemDoPedidoCommand command,CancellationToken cancellationToken = default)
+        public async Task<RemoverItemDoPedidoResultDto> HandleAsync(RemoverItemDoPedidoCommand command, CancellationToken cancellationToken)
         {
             var pedido = await _pedidoRepository.ObterPorIdAsync(command.PedidoId, cancellationToken);
 
-            if(pedido is null)
+            if (pedido is null)
                 throw new InvalidOperationException("Pedido não localizado");
 
             pedido.RemoverItem(command.ItemId);

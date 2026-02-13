@@ -1,6 +1,8 @@
-﻿namespace Vendas.Application.Commands.CatalogoCommands.ProdutoCommands.AjustarEstoque
+﻿using Vendas.Application.Mediator.Interfaces;
+
+namespace Vendas.Application.Commands.CatalogoCommands.ProdutoCommands.AjustarEstoque
 {
-    public sealed class AjustarEstoqueCommand
+    public sealed class AjustarEstoqueCommand :IRequest<AjustarEstoqueResultDto>
     {
         public Guid ProdutoId { get; }
         public int Quantidade { get; }

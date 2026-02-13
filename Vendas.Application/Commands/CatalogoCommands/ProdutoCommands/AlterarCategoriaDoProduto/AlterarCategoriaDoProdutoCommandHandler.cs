@@ -1,10 +1,11 @@
 ﻿using Vendas.Application.Abstractions.Persistence;
+using Vendas.Application.Mediator.Interfaces;
 using Vendas.Domain.Common.Exceptions;
 using Vendas.Domain.Common.Validations;
 
 namespace Vendas.Application.Commands.CatalogoCommands.ProdutoCommands.AlterarCategoriaDoProduto
 {
-    public  sealed class AlterarCategoriaDoProdutoCommandHandler
+    public  sealed class AlterarCategoriaDoProdutoCommandHandler: IRequestHandler<AlterarCategoriaDoProdutoCommand,AlterarCategoriaDoProdutoResultDto>
     {
         private readonly IProdutoRepository _produtoRepository;
         private readonly ICategoriaRepository _categoriaRepository;

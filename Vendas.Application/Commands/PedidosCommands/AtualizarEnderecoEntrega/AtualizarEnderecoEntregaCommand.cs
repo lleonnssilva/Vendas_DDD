@@ -1,8 +1,9 @@
-﻿using Vendas.Domain.Pedidos.ValueObjects;
+﻿using Vendas.Application.Mediator.Interfaces;
+using Vendas.Domain.Pedidos.ValueObjects;
 
 namespace Vendas.Application.Commands.PedidosCommands.AtualizarEnderecoEntrega
 {
-    public sealed class AtualizarEnderecoEntregaCommand
+    public sealed class AtualizarEnderecoEntregaCommand:IRequest<AtualizarEnderecoEntregaResultDto>
     {
         public Guid PedidoId { get; }
         public EnderecoEntrega NovoEnderecoEntrega { get; }

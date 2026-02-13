@@ -14,13 +14,10 @@ namespace Vendas.Application.Commands.PedidosCommands.CriarPedido
             _pedidoRepository = pedidoRepository;
         }
 
-        public async Task<CriarPedidoResultDto> HandleAsync(
-            CriarPedidoCommand command,
-        CancellationToken cancellationToken = default
-           )
+        public async Task<CriarPedidoResultDto> HandleAsync(CriarPedidoCommand command, CancellationToken cancellationToken = default)
         {
-            var enderecoEntrega =  EnderecoEntrega.Criar(
-                command.Cep, 
+            var enderecoEntrega = EnderecoEntrega.Criar(
+                command.Cep,
                 command.Logradouro,
                 command.Complemento,
                 command.Bairro,
@@ -28,7 +25,7 @@ namespace Vendas.Application.Commands.PedidosCommands.CriarPedido
                 command.Cidade,
                 command.Pais,
                 command.Numero);
-            
+
             var pedido = Pedido.Criar(command.ClienteId, enderecoEntrega);
 
             await _pedidoRepository.AdicionarAsync(pedido, cancellationToken);

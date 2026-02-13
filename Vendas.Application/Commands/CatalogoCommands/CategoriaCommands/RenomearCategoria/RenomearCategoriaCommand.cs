@@ -1,6 +1,8 @@
-﻿namespace Vendas.Application.Commands.CatalogoCommands.CategoriaCommands.RenomearCategoria
+﻿using Vendas.Application.Mediator.Interfaces;
+
+namespace Vendas.Application.Commands.CatalogoCommands.CategoriaCommands.RenomearCategoria
 {
-    public sealed class RenomearCategoriaCommand
+    public sealed class RenomearCategoriaCommand : IRequest<RenomearCategoriaResultDto>
     {
         public Guid CategoriaId { get; }
         public string NovaCategoria { get; }

@@ -4,7 +4,7 @@ using Vendas.Domain.Common.Exceptions;
 
 namespace Vendas.Application.Commands.PedidosCommands.IniciarPagamento
 {
-    public sealed class IniciarPagamentoCommandHandler:IRequestHandler<IniciarPagamentoCommand, IniciarPagamentoResultDto>
+    public sealed class IniciarPagamentoCommandHandler : IRequestHandler<IniciarPagamentoCommand, IniciarPagamentoResultDto>
     {
         private readonly IPedidoRepository _pedidoRepository;
 
@@ -13,8 +13,7 @@ namespace Vendas.Application.Commands.PedidosCommands.IniciarPagamento
             _pedidoRepository = pedidoRepository;
         }
 
-        public async Task<IniciarPagamentoResultDto> HandleAsync(
-            IniciarPagamentoCommand command, CancellationToken cancellationToken = default)
+        public async Task<IniciarPagamentoResultDto> HandleAsync(IniciarPagamentoCommand command, CancellationToken cancellationToken = default)
         {
             var pedido = await _pedidoRepository.ObterPorIdAsync(command.PedidoId, cancellationToken)
                 ?? throw new DomainException("Pedido não localizado");

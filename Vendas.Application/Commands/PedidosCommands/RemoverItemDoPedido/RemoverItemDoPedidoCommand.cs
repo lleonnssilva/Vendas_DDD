@@ -1,6 +1,8 @@
-﻿namespace Vendas.Application.Commands.PedidosCommands.RemoverItemDoPedido
+﻿using Vendas.Application.Mediator.Interfaces;
+
+namespace Vendas.Application.Commands.PedidosCommands.RemoverItemDoPedido
 {
-    public sealed class RemoverItemDoPedidoCommand
+    public sealed class RemoverItemDoPedidoCommand:IRequest<RemoverItemDoPedidoResultDto>
     {
         public Guid PedidoId { get; }
         public Guid ItemId { get;  }

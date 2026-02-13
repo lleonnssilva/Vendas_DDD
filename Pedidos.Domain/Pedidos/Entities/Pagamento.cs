@@ -50,6 +50,8 @@ namespace Vendas.Domain.Pedidos
 
         public void ConfirmarPagamento()
         {
+            GerarCodigoTransacaoLocal();
+
             Guard.Against<DomainException>(StatusPagamento != StatusPagamento.Pendente, "Apenas pagamentos pendentes podem ser confirmados");
 
             Guard.AgainstNullOrWhiteSpace(CodigoTransacao ?? string.Empty, nameof(CodigoTransacao), "O Pagamento não pode ser confirmado sem o código de transação");

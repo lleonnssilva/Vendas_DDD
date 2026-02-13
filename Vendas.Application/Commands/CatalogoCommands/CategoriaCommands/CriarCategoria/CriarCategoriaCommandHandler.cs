@@ -13,8 +13,9 @@ namespace Vendas.Application.Commands.CatalogoCommands.CategoriaCommands.CriarCa
             _categoriaRepository = categoriaRepository;
         }
 
-        public async Task<CriarCategoriaResultDto> HandleAsync(CriarCategoriaCommand command, CancellationToken cancellationToken)
+        public async Task<CriarCategoriaResultDto> HandleAsync(CriarCategoriaCommand command, CancellationToken cancellationToken = default)
         {
+
             var categoria = new Categoria(
                command.Nome,
                command.Descricao

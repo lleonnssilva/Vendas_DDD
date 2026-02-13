@@ -14,7 +14,7 @@ namespace Vendas.Application.Commands.PedidosCommands.MarcarPedidoComoEntregue
             _pedidoRepository = pedidoRepository;
         }
 
-        public async Task<MarcarPedidoComoEntregueResultDto> HandleAsync(MarcarPedidoComoEntregueCommand command, CancellationToken cancellationToken)
+        public async Task<MarcarPedidoComoEntregueResultDto> HandleAsync(MarcarPedidoComoEntregueCommand command, CancellationToken cancellationToken = default)
         {
             var pedido = await _pedidoRepository.ObterPorIdAsync(command.PedidoId, cancellationToken) ??
                throw new DomainException("Pedido não localizado.");

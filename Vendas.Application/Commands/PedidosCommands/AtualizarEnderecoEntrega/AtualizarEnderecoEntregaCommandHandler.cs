@@ -1,8 +1,9 @@
 ﻿using Vendas.Application.Abstractions.Persistence;
+using Vendas.Application.Mediator.Interfaces;
 
 namespace Vendas.Application.Commands.PedidosCommands.AtualizarEnderecoEntrega
 {
-    public sealed class AtualizarEnderecoEntregaCommandHandler
+    public sealed class AtualizarEnderecoEntregaCommandHandler: IRequestHandler<AtualizarEnderecoEntregaCommand,AtualizarEnderecoEntregaResultDto>
     {
         private readonly IPedidoRepository _pedidoRepository;
 
@@ -11,10 +12,10 @@ namespace Vendas.Application.Commands.PedidosCommands.AtualizarEnderecoEntrega
             _pedidoRepository = pedidoRepository;
         }
 
-        public async Task<AtualizarEnderecoEntregaResultDto> HandlerAsync(AtualizarEnderecoEntregaCommand command, CancellationToken cancellationToken = default)
+        public async Task<AtualizarEnderecoEntregaResultDto> HandleAsync(AtualizarEnderecoEntregaCommand command, CancellationToken cancellationToken)
         {
             var pedido = await _pedidoRepository.ObterPorIdAsync(command.PedidoId, cancellationToken);
-           
+
             if (pedido is null)
                 throw new InvalidOperationException("Pedido não localizado.");
 

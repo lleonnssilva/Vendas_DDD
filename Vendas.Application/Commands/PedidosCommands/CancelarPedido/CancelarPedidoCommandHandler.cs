@@ -1,10 +1,11 @@
 ﻿using Vendas.Application.Abstractions.Persistence;
+using Vendas.Application.Mediator.Interfaces;
 using Vendas.Domain.Common.Exceptions;
 using Vendas.Domain.Pedidos.ValueObjects;
 
 namespace Vendas.Application.Commands.PedidosCommands.CancelarPedido
 {
-    public sealed class CancelarPedidoCommandHandler
+    public sealed class CancelarPedidoCommandHandler:IRequestHandler<CancelarPedidoCommand,CancelarPedidoResultDto>
     {
         private readonly IPedidoRepository _pedidoRepository;
 
@@ -13,7 +14,7 @@ namespace Vendas.Application.Commands.PedidosCommands.CancelarPedido
             _pedidoRepository = pedidoRepository;
         }
 
-        public async Task<CancelarPedidoResultDto> HandlerAsync(CancelarPedidoCommand command, CancellationToken cancellationToken = default)
+        public async Task<CancelarPedidoResultDto> HandleAsync(CancelarPedidoCommand command, CancellationToken cancellationToken)
         {
             var pedido = await _pedidoRepository.ObterPorIdAsync(command.PedidoId) ?? throw new DomainException("Pedido não localizado.");
 
@@ -29,7 +30,6 @@ namespace Vendas.Application.Commands.PedidosCommands.CancelarPedido
                 PedidoId = pedido.Id,
                 Status = pedido.StatusPedido.ToString()
             };
-
         }
     }
 }

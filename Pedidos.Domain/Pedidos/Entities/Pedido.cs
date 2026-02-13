@@ -105,7 +105,7 @@ namespace Vendas.Domain.Pedidos
             if (pagamento is null) return;
 
             Guard.Against<DomainException>(StatusPedido != StatusPedido.Pendente, "O pedido não está no status esperado para confirmação de pagamento.");
-
+            pagamento.ConfirmarPagamento();
             StatusPedido = StatusPedido.PagamentoConfirmado;
             SetDataAtualizacao();
         }

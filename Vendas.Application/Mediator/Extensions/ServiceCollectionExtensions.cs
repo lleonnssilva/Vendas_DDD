@@ -7,13 +7,13 @@ namespace Vendas.Application.Mediator.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddSimpleMediator(
+        public static IServiceCollection AddMediator(
         this IServiceCollection services,
         params object[] args)
         {
             var assemblies = ResolveAssemblies(args);
 
-            services.AddSingleton<IMediador, Mediador>();
+            services.AddScoped<IMediador, Mediador>();
             RegisterHandlers(services, assemblies, typeof(IRequestHandler<,>));
            
             return services;
@@ -47,7 +47,7 @@ namespace Vendas.Application.Mediator.Extensions
                     .ToArray();
             }
 
-            throw new ArgumentException("Invalid parameters for AddSimpleMediator(). Use: no arguments, Assembly[], or prefix strings.");
+            throw new ArgumentException("Invalid parameters for AddMediator(). Use: no arguments, Assembly[], or prefix strings.");
         }
 
 

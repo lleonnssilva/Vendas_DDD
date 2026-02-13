@@ -1,5 +1,4 @@
 ﻿using Vendas.Application.Abstractions.Persistence;
-using Vendas.Application.Commands.CatalogoCommands.CategoriaCommands.CriarCategoria;
 using Vendas.Application.Mediator.Interfaces;
 using Vendas.Domain.Clientes;
 using Vendas.Domain.Clientes.Enums;
@@ -17,7 +16,7 @@ namespace Vendas.Application.Commands.ClientesCommands.CriarCliente
             _clienteRepository = clienteRepository;
         }
 
-        public async Task<CriarClienteResultDto> HandleAsync(CriarClienteCommand command, CancellationToken cancellationToken)
+        public async Task<CriarClienteResultDto> HandleAsync(CriarClienteCommand command, CancellationToken cancellationToken = default)
         {
             //var categoria = await _categoriaRepository.ObterPorIdAsync(command.CategoriaId, cancellationToken) ??
             //    throw new DomainException("Categoria não localizada.");
