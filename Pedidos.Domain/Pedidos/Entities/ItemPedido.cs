@@ -69,6 +69,10 @@ namespace Vendas.Domain.Pedidos
         {
             ValorTotal = PrecoUnitario * Quantidade - DescontoAplicado;
         }
+        public static ItemPedido Criar(Guid produtoId, string nomeProduto, decimal precoUnitario, int quantidade)
+        {
+            return new ItemPedido(produtoId,nomeProduto,precoUnitario, quantidade);
+        }
     }
 
 }

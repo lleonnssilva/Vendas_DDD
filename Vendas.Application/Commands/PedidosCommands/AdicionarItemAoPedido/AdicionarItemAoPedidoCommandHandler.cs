@@ -1,15 +1,19 @@
 ﻿using Vendas.Application.Abstractions.Persistence;
 using Vendas.Application.Mediator.Interfaces;
-
+using Vendas.Domain.Pedidos.Integration.Catalogo;
+using Vendas.Domain.Common.Exceptions;
 namespace Vendas.Application.Commands.PedidosCommands.AdicionarItemAoPedido
 {
     public sealed class AdicionarItemAoPedidoCommandHandler : IRequestHandler<AdicionarItemAoPedidoCommand, AdicionarItemAoPedidoResultDto>
     {
         private readonly IPedidoRepository _pedidoRepository;
-
-        public AdicionarItemAoPedidoCommandHandler(IPedidoRepository pedidoRepository)
+        private readonly CatalogoAcl _catalogoAcl;
+        private readonly ICatalogoGateway _catalogoGateway;
+        public AdicionarItemAoPedidoCommandHandler(IPedidoRepository pedidoRepository, CatalogoAcl catalogoAcl, ICatalogoGateway catalogoGateway)
         {
-            this._pedidoRepository = pedidoRepository;
+            _pedidoRepository = pedidoRepository;
+            _catalogoAcl = catalogoAcl;
+            _catalogoGateway = catalogoGateway;
         }
 
 
@@ -19,12 +23,20 @@ namespace Vendas.Application.Commands.PedidosCommands.AdicionarItemAoPedido
             if (pedido is null)
                 throw new InvalidOperationException("Pedido não localizado.");
 
-            pedido.AdicionarItem(
-                command.ProdutoId,
-                command.NomeProduto,
-                command.PrecoUnitario,
-                command.Quantidade
-                );
+            var itemDto = await _catalogoGateway.ObterProdutoPorIdAsync(command.ProdutoId, cancellationToken);
+
+            if (itemDto is null)
+                throw new DomainException("Produto não localizado.");
+
+            var disponivel = await _catalogoGateway.PossuiEstoqueDisponivelAsync(command.ProdutoId, command.Quantidade,cancellationToken);
+
+            if (!disponivel)
+                throw new DomainException("Estoque insulficiente para o produto.");
+
+
+            var snapshot = _catalogoAcl.TraduzirItem(itemDto);
+
+            pedido.AdicionarItem(snapshot, command.Quantidade);
 
             await _pedidoRepository.AtualizarAsync(pedido, cancellationToken);
 

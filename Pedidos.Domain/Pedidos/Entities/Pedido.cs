@@ -11,7 +11,7 @@ namespace Vendas.Domain.Pedidos
     public sealed class Pedido : AggregateRoot
     {
         public Guid ClienteId { get; private set; }
-        public EnderecoEntrega EnderecoEntrega { get; private set; }
+        public EnderecoEntrega? EnderecoEntrega { get; private set; }
         public decimal ValorTotal { get; private set; }
         public StatusPedido StatusPedido { get; private set; }
         public string NumeroPedido { get; private set; } = string.Empty;
@@ -25,10 +25,10 @@ namespace Vendas.Domain.Pedidos
         private Pedido(Guid clienteId, EnderecoEntrega enderecoEntrega)
         {
             Guard.AgainstEmptyGuid(clienteId, nameof(clienteId), "ClienteId inválido");
-            Guard.AgainstNull(enderecoEntrega, nameof(enderecoEntrega), "O endereço de entrega é obrigatório.");
+            
 
             ClienteId = clienteId;
-            EnderecoEntrega = enderecoEntrega;
+            EnderecoEntrega = EnderecoEntrega;
             StatusPedido = StatusPedido.Pendente;
             ValorTotal = 0m;
 
@@ -39,20 +39,29 @@ namespace Vendas.Domain.Pedidos
 
         public static Pedido Criar(Guid clienteId, EnderecoEntrega enderecoEntrega) => new(clienteId, enderecoEntrega);
 
-        public void AdicionarItem(Guid produtoId, string nomeProduto, decimal precoUnitario, int quantidade)
+        public void AdicionarItem(ItemPedido produto, int quantidade)
         {
-            Guard.Against<DomainException>(StatusPedido != StatusPedido.Pendente, "Itens só podem ser adicionados enqiuanto o pedido está pendente.");
+            Guard.AgainstNull(produto, nameof(produto));
+            Guard.Against<DomainException>(
+                StatusPedido != StatusPedido.Pendente,
+                "Itens só podem ser adicionados enquanto o pedido está pendente."
+            );
 
-            var existente = _itens.FirstOrDefault(i => i.ProdutoId == produtoId);
+            var existente = _itens.FirstOrDefault(i => i.ProdutoId == produto.ProdutoId);
 
             if (existente is not null)
                 existente.AdicionarUnidades(quantidade);
             else
-                _itens.Add(new ItemPedido(produtoId, nomeProduto, precoUnitario, quantidade));
+                _itens.Add(new ItemPedido(
+                    produto.ProdutoId,
+                    produto.NomeProduto,
+                    produto.PrecoUnitario,
+                    quantidade));
 
             RecalcularValorTotal();
             SetDataAtualizacao();
         }
+       
 
         public void RemoverItem(Guid itemId)
         {

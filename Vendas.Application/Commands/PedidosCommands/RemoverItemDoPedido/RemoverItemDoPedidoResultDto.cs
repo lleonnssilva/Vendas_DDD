@@ -2,7 +2,6 @@
 {
     public sealed class RemoverItemDoPedidoResultDto
     {
-
         public Guid PedidoId { get; }
         public decimal ValorTotal { get; }
         public string Status { get;  }
