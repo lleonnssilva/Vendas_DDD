@@ -2,26 +2,27 @@
 {
     public sealed class EnderecoDto
     {
-        public string Rua { get;  }
-        public string Numero { get; } 
+        public string Cep { get; }
+        public string Logradouro { get; }
         public string Complemento { get; }
-        public string Bairro { get; } 
+        public string Bairro { get; }
+        public string Estado { get; }
         public string Cidade { get; }
-        public string Estado { get; } 
-        public string Cep { get; } 
-        public string Pais { get;  } 
-        public EnderecoDto(string rua, string numero, string complemento, string bairro, string cidade, string estado, string cep, string pais)
+        public string Pais { get; }
+        public string Numero { get; }
+
+        public EnderecoDto(string cep, string logradouro, string complemento, string bairro, string estado, string cidade, string pais, string numero)
         {
-            Rua = rua;
-            Numero = numero;
+            Cep = cep;
+            Logradouro = logradouro;
             Complemento = complemento;
             Bairro = bairro;
-            Cidade = cidade;
             Estado = estado;
-            Cep = cep;
+            Cidade = cidade;
             Pais = pais;
+            Numero = numero;
         }
 
-       
+
     }
 }

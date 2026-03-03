@@ -25,13 +25,11 @@ namespace Vendas.Domain.Pedidos
         private Pedido(Guid clienteId, EnderecoEntrega enderecoEntrega)
         {
             Guard.AgainstEmptyGuid(clienteId, nameof(clienteId), "ClienteId inválido");
-            
 
             ClienteId = clienteId;
-            EnderecoEntrega = EnderecoEntrega;
+            EnderecoEntrega = enderecoEntrega;
             StatusPedido = StatusPedido.Pendente;
             ValorTotal = 0m;
-
 
             GerarNumeroPedido();
 
@@ -39,7 +37,7 @@ namespace Vendas.Domain.Pedidos
 
         public static Pedido Criar(Guid clienteId, EnderecoEntrega enderecoEntrega) => new(clienteId, enderecoEntrega);
 
-        public void AdicionarItem(ItemPedido produto, int quantidade)
+        public void AdicionarItem(ItemPedido produto)
         {
             Guard.AgainstNull(produto, nameof(produto));
             Guard.Against<DomainException>(
@@ -50,13 +48,13 @@ namespace Vendas.Domain.Pedidos
             var existente = _itens.FirstOrDefault(i => i.ProdutoId == produto.ProdutoId);
 
             if (existente is not null)
-                existente.AdicionarUnidades(quantidade);
+                existente.AdicionarUnidades(produto.Quantidade);
             else
                 _itens.Add(new ItemPedido(
                     produto.ProdutoId,
                     produto.NomeProduto,
                     produto.PrecoUnitario,
-                    quantidade));
+                    produto.Quantidade));
 
             RecalcularValorTotal();
             SetDataAtualizacao();

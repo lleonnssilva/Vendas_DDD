@@ -15,7 +15,7 @@ namespace Vendas.Domain.Pedidos.ValueObjects
         public string Cidade { get;  private set; }
         public string Pais { get;  private set; }
         public string Numero { get;  private set; }
-        private  EnderecoEntrega() { }
+        public  EnderecoEntrega() { }
         private EnderecoEntrega(string cep, string logradouro, string complemento, string bairro, string estado, string cidade, string pais, string numero)
         {
             Guard.AgainstNullOrWhiteSpace(cep, nameof(Cep));

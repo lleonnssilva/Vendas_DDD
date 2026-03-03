@@ -2,6 +2,7 @@
 {
     public sealed class ProdutoDto
     {
+        
         public Guid Id { get; }
         public string Nome { get; }
         public decimal Preco { get; }

@@ -9,11 +9,13 @@ namespace Vendas.Application.Commands.PedidosCommands.AdicionarItemAoPedido
         private readonly IPedidoRepository _pedidoRepository;
         private readonly CatalogoAcl _catalogoAcl;
         private readonly ICatalogoGateway _catalogoGateway;
-        public AdicionarItemAoPedidoCommandHandler(IPedidoRepository pedidoRepository, CatalogoAcl catalogoAcl, ICatalogoGateway catalogoGateway)
+        private readonly IEstoqueRepository _estoqueRepository;
+        public AdicionarItemAoPedidoCommandHandler(IPedidoRepository pedidoRepository, CatalogoAcl catalogoAcl, ICatalogoGateway catalogoGateway, IEstoqueRepository estoqueRepository)
         {
             _pedidoRepository = pedidoRepository;
             _catalogoAcl = catalogoAcl;
             _catalogoGateway = catalogoGateway;
+            _estoqueRepository = estoqueRepository;
         }
 
 
@@ -24,19 +26,17 @@ namespace Vendas.Application.Commands.PedidosCommands.AdicionarItemAoPedido
                 throw new InvalidOperationException("Pedido não localizado.");
 
             var itemDto = await _catalogoGateway.ObterProdutoPorIdAsync(command.ProdutoId, cancellationToken);
-
             if (itemDto is null)
                 throw new DomainException("Produto não localizado.");
 
-            var disponivel = await _catalogoGateway.PossuiEstoqueDisponivelAsync(command.ProdutoId, command.Quantidade,cancellationToken);
-
+            var disponivel = await _estoqueRepository.PossuiEstoqueDisponivelAsync(command.ProdutoId,command.Quantidade, cancellationToken);
             if (!disponivel)
                 throw new DomainException("Estoque insulficiente para o produto.");
 
 
-            var snapshot = _catalogoAcl.TraduzirItem(itemDto);
+            var snapshot = _catalogoAcl.TraduzirItem(itemDto, command.Quantidade);
 
-            pedido.AdicionarItem(snapshot, command.Quantidade);
+            pedido.AdicionarItem(snapshot);
 
             await _pedidoRepository.AtualizarAsync(pedido, cancellationToken);
 

@@ -7,17 +7,16 @@ namespace Vendas.Domain.Pedidos.Integration.Cliente
 
         public EnderecoEntrega TraduzirEndereco(EnderecoDto dto)
         {
-
             return EnderecoEntrega.Criar(
 
-                dto.Cep,
-                dto.Numero,
-                dto.Complemento,
-                dto.Bairro,
-                dto.Cidade,
-                dto.Estado,
-                dto.Rua,
-                dto.Pais
+                dto.Cep, 
+                dto.Logradouro, 
+                dto.Complemento, 
+                dto.Bairro, 
+                dto.Estado, 
+                dto.Cidade, 
+                dto.Pais, 
+                dto.Numero
             );
         }
 

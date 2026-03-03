@@ -40,49 +40,49 @@ namespace Vendas.Infra.EntityConfiguration
             // =====================================================
             // VALUE OBJECT - ENDERECO ENTREGA
             // =====================================================
-            //builder.OwnsOne(p => p.EnderecoEntrega, endereco =>
-            //{
-            //    endereco.Property(e => e.Cep)
-            //            .HasColumnName("Cep")
-            //            .HasMaxLength(20)
-            //            .IsRequired();
+            builder.OwnsOne(p => p.EnderecoEntrega, endereco =>
+            {
+                endereco.Property(e => e.Cep)
+                        .HasColumnName("Cep")
+                        .HasMaxLength(20)
+                        .IsRequired();
 
-            //    endereco.Property(e => e.Logradouro)
-            //            .HasColumnName("Logradouro")
-            //            .HasMaxLength(200)
-            //            .IsRequired();
+                endereco.Property(e => e.Logradouro)
+                        .HasColumnName("Logradouro")
+                        .HasMaxLength(200)
+                        .IsRequired();
 
-            //    endereco.Property(e => e.Numero)
-            //            .HasColumnName("Numero")
-            //            .HasMaxLength(20)
-            //            .IsRequired();
+                endereco.Property(e => e.Numero)
+                        .HasColumnName("Numero")
+                        .HasMaxLength(20)
+                        .IsRequired();
 
-            //    endereco.Property(e => e.Bairro)
-            //            .HasColumnName("Bairro")
-            //            .HasMaxLength(100)
-            //            .IsRequired();
+                endereco.Property(e => e.Bairro)
+                        .HasColumnName("Bairro")
+                        .HasMaxLength(100)
+                        .IsRequired();
 
-            //    endereco.Property(e => e.Cidade)
-            //            .HasColumnName("Cidade")
-            //            .HasMaxLength(100)
-            //            .IsRequired();
+                endereco.Property(e => e.Cidade)
+                        .HasColumnName("Cidade")
+                        .HasMaxLength(100)
+                        .IsRequired();
 
-            //    endereco.Property(e => e.Estado)
-            //            .HasColumnName("Estado")
-            //            .HasMaxLength(50)
-            //            .IsRequired();
+                endereco.Property(e => e.Estado)
+                        .HasColumnName("Estado")
+                        .HasMaxLength(50)
+                        .IsRequired();
 
-            //    endereco.Property(e => e.Pais)
-            //            .HasColumnName("Pais")
-            //            .HasMaxLength(50)
-            //            .IsRequired();
+                endereco.Property(e => e.Pais)
+                        .HasColumnName("Pais")
+                        .HasMaxLength(50)
+                        .IsRequired();
 
-            //    endereco.Property(e => e.Complemento)
-            //            .HasColumnName("Complemento")
-            //            .HasMaxLength(250);
+                endereco.Property(e => e.Complemento)
+                        .HasColumnName("Complemento")
+                        .HasMaxLength(250);
 
-            //    endereco.WithOwner();
-            //});
+                endereco.WithOwner();
+            });
 
             // =====================================================
             // IGNORAR PROPRIEDADES READONLY
