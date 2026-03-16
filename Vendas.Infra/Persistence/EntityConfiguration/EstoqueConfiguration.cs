@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Vendas.Domain.Estoque.Entities;
 
-namespace Vendas.Infra.EntityConfiguration
+namespace Vendas.Infra.Persistence.EntityConfiguration
 {
     public class EstoqueConfiguration : IEntityTypeConfiguration<Estoque>
     {

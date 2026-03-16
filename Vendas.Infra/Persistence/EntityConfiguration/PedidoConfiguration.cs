@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Vendas.Domain.Pedidos;
 
-namespace Vendas.Infra.EntityConfiguration
+namespace Vendas.Infra.Persistence.EntityConfiguration
 {
     public class PedidoConfiguration : IEntityTypeConfiguration<Pedido>
     {
@@ -10,14 +10,8 @@ namespace Vendas.Infra.EntityConfiguration
         {
             builder.ToTable("Pedidos");
 
-            // =====================================================
-            // PRIMARY KEY
-            // =====================================================
             builder.HasKey(p => p.Id);
 
-            // =====================================================
-            // PROPRIEDADES SIMPLES
-            // =====================================================
             builder.Property(p => p.ClienteId)
                    .IsRequired();
 
@@ -37,9 +31,7 @@ namespace Vendas.Infra.EntityConfiguration
                    .HasMaxLength(30)
                    .IsRequired();
 
-            // =====================================================
-            // VALUE OBJECT - ENDERECO ENTREGA
-            // =====================================================
+
             builder.OwnsOne(p => p.EnderecoEntrega, endereco =>
             {
                 endereco.Property(e => e.Cep)
@@ -84,15 +76,11 @@ namespace Vendas.Infra.EntityConfiguration
                 endereco.WithOwner();
             });
 
-            // =====================================================
-            // IGNORAR PROPRIEDADES READONLY
-            // =====================================================
+
             builder.Ignore(p => p.Itens);
             builder.Ignore(p => p.Pagamentos);
 
-            // =====================================================
-            // ITENS (Backing Field)
-            // =====================================================
+
             builder.OwnsMany<ItemPedido>("_itens", item =>
             {
                 item.ToTable("PedidoItens");
@@ -124,9 +112,7 @@ namespace Vendas.Infra.EntityConfiguration
                     .IsRequired();
             });
 
-            // =====================================================
-            // PAGAMENTOS (Backing Field)
-            // =====================================================
+
             builder.OwnsMany<Pagamento>("_pagamentos", pagamento =>
             {
                 pagamento.ToTable("PedidoPagamentos");
@@ -157,9 +143,7 @@ namespace Vendas.Infra.EntityConfiguration
                          .IsRequired();
             });
 
-            // =====================================================
-            // AUDITORIA (AggregateRoot)
-            // =====================================================
+
             builder.Property<DateTime>("DataCriacao")
                    .IsRequired();
 

@@ -1,6 +1,6 @@
 ﻿using Vendas.Application.Abstractions.Persistence;
 using Vendas.Domain.Clientes;
-using Vendas.Infra.Context;
+using Vendas.Infra.Persistence.Context;
 
 namespace Vendas.Infra.Repositories
 {

@@ -34,9 +34,9 @@ namespace Vendas.Application.Commands.PedidosCommands.AdicionarItemAoPedido
                 throw new DomainException("Estoque insulficiente para o produto.");
 
 
-            var snapshot = _catalogoAcl.TraduzirItem(itemDto, command.Quantidade);
+            var (nomeProduto, precoProduto) = _catalogoAcl.TraduzirItem(itemDto);
 
-            pedido.AdicionarItem(snapshot);
+            pedido.AdicionarItem(command.ProdutoId,nomeProduto,precoProduto,command.Quantidade);
 
             await _pedidoRepository.AtualizarAsync(pedido, cancellationToken);
 

@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Vendas.Infra.Context;
+using Vendas.Infra.Persistence.Context;
 
 #nullable disable
 
 namespace Vendas.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260212180224_AddPedidoNovo")]
-    partial class AddPedidoNovo
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,6 +111,32 @@ namespace Vendas.Infra.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Clientes", (string)null);
+                });
+
+            modelBuilder.Entity("Vendas.Domain.Estoque.Entities.Estoque", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DataAtualizacao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataCriacao")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ProdutoId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("QuantidadeDisponivel")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuantidadeReservada")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Estoques");
                 });
 
             modelBuilder.Entity("Vendas.Domain.Pedidos.Pedido", b =>
@@ -557,8 +580,7 @@ namespace Vendas.Infra.Migrations
                                 .HasForeignKey("PedidoId");
                         });
 
-                    b.Navigation("EnderecoEntrega")
-                        .IsRequired();
+                    b.Navigation("EnderecoEntrega");
 
                     b.Navigation("_itens");
 

@@ -3,9 +3,10 @@ using Vendas.Domain.Catalogo;
 using Vendas.Domain.Clientes;
 using Vendas.Domain.Estoque.Entities;
 using Vendas.Domain.Pedidos;
-using Vendas.Infra.EntityConfiguration;
+using Vendas.Infra.Persistence.EntityConfiguration;
 
-namespace Vendas.Infra.Context
+
+namespace Vendas.Infra.Persistence.Context
 {
     public class AppDbContext : DbContext
     {

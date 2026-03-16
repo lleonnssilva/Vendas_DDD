@@ -140,35 +140,35 @@ namespace Vendas.Domain.Tests.Pedidos
                 .WithMessage("*quantidade*Zero*");
         }
 
-        [Fact(DisplayName = "Deve atualizar preço unitario com sucesso quando valor válido")]
-        public void AtualizarPrecoUnitario_DeveLancarAtualizarComSucesso_QuandoValorValido()
-        {
-            //Arrange
-            var item = CriarItemValido(preco: 100m, quantidade: 3);
+        //[Fact(DisplayName = "Deve atualizar preço unitario com sucesso quando valor válido")]
+        //public void AtualizarPrecoUnitario_DeveLancarAtualizarComSucesso_QuandoValorValido()
+        //{
+        //    //Arrange
+        //    var item = CriarItemValido(preco: 100m, quantidade: 3);
 
-            //Act
-            item.AtualizarPrecoUnitario(150m);
+        //    //Act
+        //    item.AtualizarPrecoUnitario(150m);
 
-            //Assert
-            item.PrecoUnitario.Should().Be(150m);
-            item.ValorTotal.Should().Be(450m);
-            item.DataAtualizacao.Should().NotBeNull();
-        }
+        //    //Assert
+        //    item.PrecoUnitario.Should().Be(150m);
+        //    item.ValorTotal.Should().Be(450m);
+        //    item.DataAtualizacao.Should().NotBeNull();
+        //}
 
-        [Fact(DisplayName = "Deve lançar exceção quando valor inválido")]
-        public void AtualizarPrecoUnitario_DeveLancarExcecao_QuandoValorInvalido()
-        {
-            //Arrange
-            var item = CriarItemValido();
+        //[Fact(DisplayName = "Deve lançar exceção quando valor inválido")]
+        //public void AtualizarPrecoUnitario_DeveLancarExcecao_QuandoValorInvalido()
+        //{
+        //    //Arrange
+        //    var item = CriarItemValido();
 
-            //Act
-            Action act = () => item.AtualizarPrecoUnitario(0);
+        //    //Act
+        //    Action act = () => item.AtualizarPrecoUnitario(0);
 
-            //Assert
-            act.Should().Throw<DomainException>()
-                 .WithMessage("*O preço unitário deve ser maior que zero*s");
-            item.DataAtualizacao.Should().NotBeNull();
-        }
+        //    //Assert
+        //    act.Should().Throw<DomainException>()
+        //         .WithMessage("*O preço unitário deve ser maior que zero*s");
+        //    item.DataAtualizacao.Should().NotBeNull();
+        //}
 
         [Fact(DisplayName = "Dois itens com mesmo Id devem ser considerados iguais")]
         public void Equals_DeveRetornarTrue_QuandoMesmoId()

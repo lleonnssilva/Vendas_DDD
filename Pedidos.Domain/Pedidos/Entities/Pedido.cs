@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Vendas.Domain.Catalogo.ValueObjects;
 using Vendas.Domain.Common.Base;
 using Vendas.Domain.Common.Exceptions;
 using Vendas.Domain.Common.Validations;
@@ -37,24 +38,24 @@ namespace Vendas.Domain.Pedidos
 
         public static Pedido Criar(Guid clienteId, EnderecoEntrega enderecoEntrega) => new(clienteId, enderecoEntrega);
 
-        public void AdicionarItem(ItemPedido produto)
+        public void AdicionarItem(Guid produtoId, string nomeProduto, decimal precoProduto, int quantidade)
         {
-            Guard.AgainstNull(produto, nameof(produto));
-            Guard.Against<DomainException>(
-                StatusPedido != StatusPedido.Pendente,
-                "Itens só podem ser adicionados enquanto o pedido está pendente."
-            );
+            Guard.AgainstEmptyGuid(produtoId, "Informe o produto.");
+            Guard.AgainstNull(nomeProduto, nameof(nomeProduto));
+            Guard.AgainstNull(precoProduto, nameof(precoProduto));
+            Guard.AgainstNull(quantidade, nameof(quantidade));
+            Guard.Against<DomainException>(StatusPedido != StatusPedido.Pendente,"Itens só podem ser adicionados enquanto o pedido está pendente.");
 
-            var existente = _itens.FirstOrDefault(i => i.ProdutoId == produto.ProdutoId);
+            var existente = _itens.FirstOrDefault(i => i.ProdutoId == produtoId);
 
             if (existente is not null)
-                existente.AdicionarUnidades(produto.Quantidade);
+                existente.AdicionarUnidades(quantidade);
             else
                 _itens.Add(new ItemPedido(
-                    produto.ProdutoId,
-                    produto.NomeProduto,
-                    produto.PrecoUnitario,
-                    produto.Quantidade));
+                    produtoId,
+                    nomeProduto,
+                    precoProduto,
+                    quantidade));
 
             RecalcularValorTotal();
             SetDataAtualizacao();

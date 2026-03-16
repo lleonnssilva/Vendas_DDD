@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Vendas.Application.Abstractions.Persistence;
 using Vendas.Domain.Estoque.Entities;
-using Vendas.Infra.Context;
+using Vendas.Infra.Persistence.Context;
 
 namespace Vendas.Infra.Repositories
 {

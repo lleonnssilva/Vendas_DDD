@@ -25,4 +25,8 @@
     <ProjectReference Include="..\Vendas.Infra\Vendas.Infra.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Endpoints\Pedidos\" />
+  </ItemGroup>
+
 </Project>

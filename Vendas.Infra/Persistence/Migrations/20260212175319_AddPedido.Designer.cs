@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Vendas.Infra.Context;
+using Vendas.Infra.Persistence.Context;
 
 #nullable disable
 
 namespace Vendas.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260212175319_AddPedido")]
+    partial class AddPedido
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,11 +116,14 @@ namespace Vendas.Infra.Migrations
                     b.ToTable("Clientes", (string)null);
                 });
 
-            modelBuilder.Entity("Vendas.Domain.Estoque.Entities.Estoque", b =>
+            modelBuilder.Entity("Vendas.Domain.Pedidos.Pagamento", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CodigoTransacao")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DataAtualizacao")
                         .HasColumnType("datetime2");
@@ -125,18 +131,26 @@ namespace Vendas.Infra.Migrations
                     b.Property<DateTime>("DataCriacao")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("ProdutoId")
+                    b.Property<DateTime?>("DataPagamento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MetodoPagamento")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("PedidoId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("QuantidadeDisponivel")
+                    b.Property<int>("StatusPagamento")
                         .HasColumnType("int");
 
-                    b.Property<int>("QuantidadeReservada")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Valor")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Estoques");
+                    b.HasIndex("PedidoId");
+
+                    b.ToTable("Pagamento");
                 });
 
             modelBuilder.Entity("Vendas.Domain.Pedidos.Pedido", b =>
@@ -156,21 +170,17 @@ namespace Vendas.Infra.Migrations
 
                     b.Property<string>("NumeroPedido")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("StatusPedido")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("ValorTotal")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("NumeroPedido")
-                        .IsUnique();
 
                     b.ToTable("Pedidos", (string)null);
                 });
@@ -430,11 +440,21 @@ namespace Vendas.Infra.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Vendas.Domain.Pedidos.Pagamento", b =>
+                {
+                    b.HasOne("Vendas.Domain.Pedidos.Pedido", null)
+                        .WithMany("Pagamentos")
+                        .HasForeignKey("PedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Vendas.Domain.Pedidos.Pedido", b =>
                 {
-                    b.OwnsMany("Vendas.Domain.Pedidos.ItemPedido", "_itens", b1 =>
+                    b.OwnsMany("Vendas.Domain.Pedidos.ItemPedido", "Itens", b1 =>
                         {
                             b1.Property<Guid>("Id")
+                                .ValueGeneratedOnAdd()
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<DateTime?>("DataAtualizacao")
@@ -470,50 +490,7 @@ namespace Vendas.Infra.Migrations
 
                             b1.HasIndex("PedidoId");
 
-                            b1.ToTable("PedidoItens", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("PedidoId");
-                        });
-
-                    b.OwnsMany("Vendas.Domain.Pedidos.Pagamento", "_pagamentos", b1 =>
-                        {
-                            b1.Property<Guid>("Id")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("CodigoTransacao")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<DateTime?>("DataAtualizacao")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<DateTime>("DataCriacao")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<DateTime?>("DataPagamento")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<string>("MetodoPagamento")
-                                .IsRequired()
-                                .HasMaxLength(30)
-                                .HasColumnType("nvarchar(30)");
-
-                            b1.Property<Guid>("PedidoId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("StatusPagamento")
-                                .IsRequired()
-                                .HasMaxLength(30)
-                                .HasColumnType("nvarchar(30)");
-
-                            b1.Property<decimal>("Valor")
-                                .HasColumnType("decimal(18,2)");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("PedidoId");
-
-                            b1.ToTable("PedidoPagamentos", (string)null);
+                            b1.ToTable("ItensPedido", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("PedidoId");
@@ -527,50 +504,42 @@ namespace Vendas.Infra.Migrations
                             b1.Property<string>("Bairro")
                                 .IsRequired()
                                 .HasMaxLength(100)
-                                .HasColumnType("nvarchar(100)")
-                                .HasColumnName("Bairro");
+                                .HasColumnType("nvarchar(100)");
 
                             b1.Property<string>("Cep")
                                 .IsRequired()
                                 .HasMaxLength(20)
-                                .HasColumnType("nvarchar(20)")
-                                .HasColumnName("Cep");
+                                .HasColumnType("nvarchar(20)");
 
                             b1.Property<string>("Cidade")
                                 .IsRequired()
                                 .HasMaxLength(100)
-                                .HasColumnType("nvarchar(100)")
-                                .HasColumnName("Cidade");
+                                .HasColumnType("nvarchar(100)");
 
                             b1.Property<string>("Complemento")
                                 .IsRequired()
                                 .HasMaxLength(250)
-                                .HasColumnType("nvarchar(250)")
-                                .HasColumnName("Complemento");
+                                .HasColumnType("nvarchar(250)");
 
                             b1.Property<string>("Estado")
                                 .IsRequired()
                                 .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)")
-                                .HasColumnName("Estado");
+                                .HasColumnType("nvarchar(50)");
 
                             b1.Property<string>("Logradouro")
                                 .IsRequired()
                                 .HasMaxLength(200)
-                                .HasColumnType("nvarchar(200)")
-                                .HasColumnName("Logradouro");
+                                .HasColumnType("nvarchar(200)");
 
                             b1.Property<string>("Numero")
                                 .IsRequired()
                                 .HasMaxLength(20)
-                                .HasColumnType("nvarchar(20)")
-                                .HasColumnName("Numero");
+                                .HasColumnType("nvarchar(20)");
 
                             b1.Property<string>("Pais")
                                 .IsRequired()
                                 .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)")
-                                .HasColumnName("Pais");
+                                .HasColumnType("nvarchar(50)");
 
                             b1.HasKey("PedidoId");
 
@@ -580,11 +549,15 @@ namespace Vendas.Infra.Migrations
                                 .HasForeignKey("PedidoId");
                         });
 
-                    b.Navigation("EnderecoEntrega");
+                    b.Navigation("EnderecoEntrega")
+                        .IsRequired();
 
-                    b.Navigation("_itens");
+                    b.Navigation("Itens");
+                });
 
-                    b.Navigation("_pagamentos");
+            modelBuilder.Entity("Vendas.Domain.Pedidos.Pedido", b =>
+                {
+                    b.Navigation("Pagamentos");
                 });
 #pragma warning restore 612, 618
         }

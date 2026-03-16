@@ -11,10 +11,10 @@ namespace Vendas.Domain.Estoque.Entities
 
         protected Estoque() { }
 
-        public Estoque(Guid produtoId,int quantidadeDisonivel, int quantidadeReservada)
+        public Estoque(Guid produtoId,int quantidadeDisponivel, int quantidadeReservada)
         {
             ProdutoId = produtoId;
-            QuantidadeDisponivel = quantidadeDisonivel;
+            QuantidadeDisponivel = quantidadeDisponivel;
             QuantidadeReservada = quantidadeReservada;
         }
 

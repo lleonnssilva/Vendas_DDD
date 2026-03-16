@@ -2,14 +2,9 @@
 {
     public sealed class CatalogoAcl
     {
-        public  ItemPedido TraduzirItem(ProdutoDto dto, int quantidade)
+        public (string nomeProduto, decimal precoUnitario) TraduzirItem(ProdutoDto dto)
         {
-            return  ItemPedido.Criar(
-                dto.Id, 
-                dto.Nome, 
-                dto.Preco,
-                quantidade
-            );
+            return (dto.Nome, dto.Preco);
         }
     }
 }

@@ -3,7 +3,7 @@ using Vendas.Application.Abstractions.Persistence;
 using Vendas.Application.Mediator.Extensions;
 using Vendas.Domain.Pedidos.Integration.Catalogo;
 using Vendas.Domain.Pedidos.Integration.Cliente;
-using Vendas.Infra.Context;
+using Vendas.Infra.Persistence.Context;
 using Vendas.Infra.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Vendas.Domain.Catalogo;
 
-namespace Vendas.Infra.EntityConfiguration
+namespace Vendas.Infra.Persistence.EntityConfiguration
 {
 
     public class ProdutoConfiguration : IEntityTypeConfiguration<Produto>

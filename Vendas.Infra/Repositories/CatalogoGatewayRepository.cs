@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Vendas.Domain.Pedidos.Integration.Catalogo;
-using Vendas.Infra.Context;
+using Vendas.Infra.Persistence.Context;
 
 namespace Vendas.Infra.Repositories
 {
