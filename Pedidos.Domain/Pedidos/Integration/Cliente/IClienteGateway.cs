@@ -2,6 +2,9 @@
 {
     public interface IClienteGateway
     {
-        Task<EnderecoDto> ObterEnderecoAsync(Guid clienteId, Guid enderecoId,CancellationToken cancellationToken);
+        Task<EnderecoDto?> ObterEnderecoAsync(
+            Guid clienteId, 
+            Guid enderecoId,
+            CancellationToken cancellationToken = default);
     }
 }

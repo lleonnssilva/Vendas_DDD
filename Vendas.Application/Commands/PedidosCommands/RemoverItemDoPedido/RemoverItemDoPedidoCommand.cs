@@ -2,7 +2,7 @@
 
 namespace Vendas.Application.Commands.PedidosCommands.RemoverItemDoPedido
 {
-    public sealed class RemoverItemDoPedidoCommand:IRequest<RemoverItemDoPedidoResultDto>
+    public sealed class RemoverItemDoPedidoCommand
     {
         public Guid PedidoId { get; }
         public Guid ItemId { get;  }

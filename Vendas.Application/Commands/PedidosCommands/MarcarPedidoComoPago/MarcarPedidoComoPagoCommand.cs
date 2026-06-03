@@ -2,7 +2,7 @@
 
 namespace Vendas.Application.Commands.PedidosCommands.MarcarPedidoComoPago
 {
-    public sealed class MarcarPedidoComoPagoCommand : IRequest<MarcarPedidoComoPagoResultDto>
+    public sealed class MarcarPedidoComoPagoCommand
     {
         public Guid PedidoId { get; }
         public Guid PagamentoId { get; }

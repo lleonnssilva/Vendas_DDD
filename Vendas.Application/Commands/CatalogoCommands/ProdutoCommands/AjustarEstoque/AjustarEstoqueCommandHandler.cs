@@ -4,7 +4,7 @@ using Vendas.Domain.Common.Exceptions;
 
 namespace Vendas.Application.Commands.CatalogoCommands.ProdutoCommands.AjustarEstoque
 {
-    public sealed class AjustarEstoqueCommandHandler : IRequestHandler<AjustarEstoqueCommand, AjustarEstoqueResultDto>
+    public sealed class AjustarEstoqueCommandHandler
     {
         private readonly IProdutoRepository _produtoRepository;
 

@@ -3,7 +3,7 @@ using Vendas.Application.Mediator.Interfaces;
 
 namespace Vendas.Application.Commands.PedidosCommands.RemoverItemDoPedido
 {
-    public sealed class RemoverItemDoPedidoCommandHandler:IRequestHandler<RemoverItemDoPedidoCommand,RemoverItemDoPedidoResultDto>
+    public sealed class RemoverItemDoPedidoCommandHandler
     {
         private readonly IPedidoRepository _pedidoRepository;
 

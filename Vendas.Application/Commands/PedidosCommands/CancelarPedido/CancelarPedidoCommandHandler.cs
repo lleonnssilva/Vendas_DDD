@@ -5,7 +5,7 @@ using Vendas.Domain.Pedidos.ValueObjects;
 
 namespace Vendas.Application.Commands.PedidosCommands.CancelarPedido
 {
-    public sealed class CancelarPedidoCommandHandler:IRequestHandler<CancelarPedidoCommand,CancelarPedidoResultDto>
+    public sealed class CancelarPedidoCommandHandler
     {
         private readonly IPedidoRepository _pedidoRepository;
 

@@ -2,7 +2,7 @@
 
 namespace Vendas.Application.Commands.CatalogoCommands.CategoriaCommands.CriarCategoria
 {
-    public sealed class CriarCategoriaCommand : IRequest<CriarCategoriaResultDto>
+    public sealed class CriarCategoriaCommand
 
     {
         public string Nome { get; private set; }

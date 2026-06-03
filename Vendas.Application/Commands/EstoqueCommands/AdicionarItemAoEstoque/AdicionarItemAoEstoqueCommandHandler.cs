@@ -5,7 +5,7 @@ using Vendas.Domain.Estoque.Entities;
 
 namespace Vendas.Application.Commands.EstoqueCommands.AdicionarItemAoEstoque
 {
-    public sealed class AdicionarItemAoEstoqueCommandHandler : IRequestHandler<AdicionarItemAoEstoqueCommand, AdicionarItemAoEstoqueResultDto>
+    public sealed class AdicionarItemAoEstoqueCommandHandler
     {
         private readonly IProdutoRepository _produtoRepository;
         private readonly IEstoqueRepository _estoqueRepository;

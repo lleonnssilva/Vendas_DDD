@@ -7,7 +7,7 @@ using Vendas.Domain.Clientes.ValueObjects;
 namespace Vendas.Application.Commands.ClientesCommands.CriarCliente
 {
 
-    public sealed class CriarClienteCommandHandler : IRequestHandler<CriarClienteCommand, CriarClienteResultDto>
+    public sealed class CriarClienteCommandHandler
     {
         private readonly IClienteRepository _clienteRepository;
 

@@ -2,7 +2,7 @@
 
 namespace Vendas.Application.Commands.CatalogoCommands.CategoriaCommands.RenomearCategoria
 {
-    public sealed class RenomearCategoriaCommand : IRequest<RenomearCategoriaResultDto>
+    public sealed class RenomearCategoriaCommand
     {
         public Guid CategoriaId { get; }
         public string NovaCategoria { get; }

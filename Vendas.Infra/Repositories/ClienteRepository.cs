@@ -21,14 +21,15 @@ namespace Vendas.Infra.Repositories
 
         public async Task AtualizarAsync(Cliente cliente, CancellationToken cancellationToken = default)
         {
-            _dbContext.Clientes.Update(cliente);
-            _dbContext.SaveChanges();
+            //_dbContext.Clientes.Update(cliente);
+            //_dbContext.SaveChanges();
         }
 
         public async Task<Cliente?> ObterPorIdAsync(Guid clienteId, CancellationToken cancellationToken = default)
         {
 
-            return await _dbContext.Clientes.FindAsync(clienteId);
+            return null;
+                //await _dbContext.Clientes.FindAsync(clienteId);
         }
     }
 }

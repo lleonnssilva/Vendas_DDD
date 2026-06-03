@@ -1,8 +1,6 @@
-﻿using Vendas.Application.Mediator.Interfaces;
-
-namespace Vendas.Application.Commands.PedidosCommands.AdicionarItemAoPedido
+﻿namespace Vendas.Application.Commands.PedidosCommands.AdicionarItemAoPedido
 {
-    public sealed class AdicionarItemAoPedidoCommand : IRequest<AdicionarItemAoPedidoResultDto>
+    public sealed class AdicionarItemAoPedidoCommand
     {
         public Guid PedidoId { get; }
         public Guid ProdutoId { get; }

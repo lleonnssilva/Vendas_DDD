@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -23,10 +23,6 @@
     <ProjectReference Include="..\Pedidos.Domain\Vendas.Domain.csproj" />
     <ProjectReference Include="..\Vendas.Application\Vendas.Application.csproj" />
     <ProjectReference Include="..\Vendas.Infra\Vendas.Infra.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Endpoints\Pedidos\" />
   </ItemGroup>
 
 </Project>

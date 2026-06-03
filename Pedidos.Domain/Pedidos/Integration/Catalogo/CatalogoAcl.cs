@@ -2,9 +2,10 @@
 {
     public sealed class CatalogoAcl
     {
-        public (string nomeProduto, decimal precoUnitario) TraduzirItem(ProdutoDto dto)
+        public (string nomeProduto, decimal precoUnitario) TraduzirProduto(ProdutoDto dto)
         {
             return (dto.Nome, dto.Preco);
+
         }
     }
 }

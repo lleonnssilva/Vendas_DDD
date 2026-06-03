@@ -1,31 +1,33 @@
 ﻿using Vendas.Application.Abstractions.Persistence;
-using Vendas.Application.Mediator.Interfaces;
 using Vendas.Domain.Common.Exceptions;
 using Vendas.Domain.Pedidos;
 using Vendas.Domain.Pedidos.Integration.Cliente;
 
 namespace Vendas.Application.Commands.PedidosCommands.CriarPedido
 {
-    public sealed class CriarPedidoCommandHandler : IRequestHandler<CriarPedidoCommand, CriarPedidoResultDto>
+    public sealed class CriarPedidoCommandHandler
     {
         private readonly IPedidoRepository _pedidoRepository;
-        private readonly ClienteAcl _clienteAcl;
         private readonly IClienteGateway _clienteGateway;
-        public CriarPedidoCommandHandler(IPedidoRepository pedidoRepository, ClienteAcl clienteAcl, IClienteGateway clienteGateway)
+        private readonly ClienteAcl _clienteAcl;
+        public CriarPedidoCommandHandler(
+            IPedidoRepository pedidoRepository, 
+            IClienteGateway clienteGateway,
+            ClienteAcl clienteAcl)
         {
             _pedidoRepository = pedidoRepository;
-            _clienteAcl = clienteAcl;
             _clienteGateway = clienteGateway;
+            _clienteAcl = clienteAcl;
         }
 
         public async Task<CriarPedidoResultDto> HandleAsync(CriarPedidoCommand command, CancellationToken cancellationToken = default)
         {
-            var dtoEndereco = await _clienteGateway.ObterEnderecoAsync(command.ClienteId, command.EnderecoId, cancellationToken = default);
+            var enderecoDto = await _clienteGateway.ObterEnderecoAsync(command.ClienteId, command.EnderecoId, cancellationToken = default);
 
-            if (dtoEndereco == null)
+            if (enderecoDto == null)
                 throw new DomainException("Endereço não localizado.");
 
-            var enderecoEntrega = _clienteAcl.TraduzirEndereco(dtoEndereco);
+            var enderecoEntrega = _clienteAcl.TraduzirEndereco(enderecoDto);
 
             var pedido = Pedido.Criar(command.ClienteId, enderecoEntrega);
 

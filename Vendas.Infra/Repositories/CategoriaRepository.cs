@@ -20,13 +20,14 @@ namespace Vendas.Infra.Repositories
 
         public async Task AtualizarAsync(Categoria categoria, CancellationToken cancellationToken = default)
         {
-            _dbContext.Categorias.Update(categoria);
-            _dbContext.SaveChanges();
+            //_dbContext.Categorias.Update(categoria);
+            //_dbContext.SaveChanges();
         }
 
         public async Task<Categoria?> ObterPorIdAsync(Guid categoriaId, CancellationToken cancellationToken = default)
         {
-            return await _dbContext.Categorias.FindAsync(categoriaId);
+            return null;
+                //await _dbContext.Categorias.FindAsync(categoriaId);
         }
     }
 }

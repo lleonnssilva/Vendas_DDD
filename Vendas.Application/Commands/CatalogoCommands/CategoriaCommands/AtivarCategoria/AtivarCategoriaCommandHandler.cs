@@ -4,7 +4,7 @@ using Vendas.Domain.Common.Exceptions;
 
 namespace Vendas.Application.Commands.CatalogoCommands.CategoriaCommands.AtivarCategoria
 {
-    public sealed class AtivarCategoriaCommandHandler : IRequestHandler<AtivarCategoriaCommand, AtivarCategoriaResultDto>
+    public sealed class AtivarCategoriaCommandHandler
     {
         private readonly ICategoriaRepository _categoriaRepository;
 

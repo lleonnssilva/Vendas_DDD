@@ -21,25 +21,27 @@ namespace Vendas.Infra.Repositories
 
         public async Task AtualizarAsync(Estoque estoque, CancellationToken cancellationToken = default)
         {
-            _dbContext.Estoques.Update(estoque);
-            _dbContext.SaveChanges();
+            //_dbContext.Estoques.Update(estoque);
+            //_dbContext.SaveChanges();
         }
 
         public async Task<Estoque?> ObterPorIdAsync(Guid estoqueId, CancellationToken cancellationToken = default)
         {
 
-            return await _dbContext.Estoques.FindAsync(estoqueId);
+            return null;
+                //await _dbContext.Estoques.FindAsync(estoqueId);
         }
 
         public async Task<Estoque?> ObterPorProdutoIdAsync(Guid produtoId, CancellationToken cancellationToken = default)
         {
-            return await _dbContext.Estoques.Where(x => x.ProdutoId == produtoId).FirstOrDefaultAsync();
+            return null;
+               // await _dbContext.Estoques.Where(x => x.ProdutoId == produtoId).FirstOrDefaultAsync();
         }
 
         public async Task<bool> PossuiEstoqueDisponivelAsync(Guid produtoId, int quantidade, CancellationToken cancellationToken = default)
         {
-            var disponivel = await _dbContext.Estoques.Where(x => x.ProdutoId == produtoId && (x.QuantidadeReservada + quantidade) <= x.QuantidadeDisponivel).FirstOrDefaultAsync();
-            return disponivel is not null;
+            //var disponivel = await _dbContext.Estoques.Where(x => x.ProdutoId == produtoId && (x.QuantidadeReservada + quantidade) <= x.QuantidadeDisponivel).FirstOrDefaultAsync();
+            return false; //disponivel is not null;
         }
     }
 }

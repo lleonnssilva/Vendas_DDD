@@ -3,7 +3,7 @@ using Vendas.Application.Mediator.Interfaces;
 
 namespace Vendas.Application.Commands.PedidosCommands.AtualizarEnderecoEntrega
 {
-    public sealed class AtualizarEnderecoEntregaCommandHandler: IRequestHandler<AtualizarEnderecoEntregaCommand,AtualizarEnderecoEntregaResultDto>
+    public sealed class AtualizarEnderecoEntregaCommandHandler
     {
         private readonly IPedidoRepository _pedidoRepository;
 

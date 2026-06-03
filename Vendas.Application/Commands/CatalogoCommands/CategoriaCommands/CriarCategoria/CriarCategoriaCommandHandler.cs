@@ -4,7 +4,7 @@ using Vendas.Domain.Catalogo;
 
 namespace Vendas.Application.Commands.CatalogoCommands.CategoriaCommands.CriarCategoria
 {
-    public sealed class CriarCategoriaCommandHandler : IRequestHandler<CriarCategoriaCommand, CriarCategoriaResultDto>
+    public sealed class CriarCategoriaCommandHandler
     {
         private readonly ICategoriaRepository _categoriaRepository;
 

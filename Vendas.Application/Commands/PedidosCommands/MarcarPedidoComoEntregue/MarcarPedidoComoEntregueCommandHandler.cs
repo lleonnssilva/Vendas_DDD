@@ -5,7 +5,7 @@ using Vendas.Domain.Common.Exceptions;
 namespace Vendas.Application.Commands.PedidosCommands.MarcarPedidoComoEntregue
 {
 
-    public sealed class MarcarPedidoComoEntregueCommandHandler : IRequestHandler<MarcarPedidoComoEntregueCommand, MarcarPedidoComoEntregueResultDto>
+    public sealed class MarcarPedidoComoEntregueCommandHandler
     {
         private readonly IPedidoRepository _pedidoRepository;
 

@@ -2,7 +2,7 @@
 
 namespace Vendas.Application.Commands.CatalogoCommands.ProdutoCommands.AjustarEstoque
 {
-    public sealed class AjustarEstoqueCommand :IRequest<AjustarEstoqueResultDto>
+    public sealed class AjustarEstoqueCommand
     {
         public Guid ProdutoId { get; }
         public int Quantidade { get; }

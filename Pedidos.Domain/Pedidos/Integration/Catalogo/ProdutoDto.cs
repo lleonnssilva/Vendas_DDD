@@ -6,14 +6,12 @@
         public Guid Id { get; }
         public string Nome { get; }
         public decimal Preco { get; }
-        public int Quantidade { get; }
 
-        public ProdutoDto(Guid id, string nome, decimal preco, bool ativo, int quantidade)
+        public ProdutoDto(Guid id, string nome, decimal preco)
         {
             Id = id;
             Nome = nome;
             Preco = preco;
-            Quantidade = quantidade;
         }
     }
 }

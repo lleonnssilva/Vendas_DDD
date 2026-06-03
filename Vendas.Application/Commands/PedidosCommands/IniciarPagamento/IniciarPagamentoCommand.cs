@@ -3,7 +3,7 @@ using Vendas.Domain.Pedidos.Enums;
 
 namespace Vendas.Application.Commands.PedidosCommands.IniciarPagamento
 {
-    public sealed class IniciarPagamentoCommand : IRequest<IniciarPagamentoResultDto>
+    public sealed class IniciarPagamentoCommand
     {
         public Guid PedidoId { get;}
         public MetodoPagamento MetodoPagamento { get;}

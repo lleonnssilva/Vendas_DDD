@@ -1,8 +1,6 @@
-﻿using Vendas.Application.Mediator.Interfaces;
-
-namespace Vendas.Application.Commands.EstoqueCommands.AdicionarItemAoEstoque
+﻿namespace Vendas.Application.Commands.EstoqueCommands.AdicionarItemAoEstoque
 {
-    public sealed class AdicionarItemAoEstoqueCommand : IRequest<AdicionarItemAoEstoqueResultDto>
+    public sealed class AdicionarItemAoEstoqueCommand 
     {
         public Guid ProdutoId { get; }
         public int QuantidadeDisponivel { get; }

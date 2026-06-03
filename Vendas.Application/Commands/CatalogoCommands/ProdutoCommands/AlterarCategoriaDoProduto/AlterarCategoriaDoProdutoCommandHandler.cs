@@ -5,7 +5,7 @@ using Vendas.Domain.Common.Validations;
 
 namespace Vendas.Application.Commands.CatalogoCommands.ProdutoCommands.AlterarCategoriaDoProduto
 {
-    public  sealed class AlterarCategoriaDoProdutoCommandHandler: IRequestHandler<AlterarCategoriaDoProdutoCommand,AlterarCategoriaDoProdutoResultDto>
+    public  sealed class AlterarCategoriaDoProdutoCommandHandler
     {
         private readonly IProdutoRepository _produtoRepository;
         private readonly ICategoriaRepository _categoriaRepository;

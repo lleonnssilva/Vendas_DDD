@@ -3,7 +3,7 @@
 namespace Vendas.Application.Commands.ClientesCommands.CriarCliente
 {
 
-    public sealed class CriarClienteCommand : IRequest<CriarClienteResultDto>
+    public sealed class CriarClienteCommand 
     {
         public string Nome { get; }
         public string Cpf { get; }

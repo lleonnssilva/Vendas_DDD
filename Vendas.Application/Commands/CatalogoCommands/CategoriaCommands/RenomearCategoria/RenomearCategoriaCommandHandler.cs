@@ -4,7 +4,7 @@ using Vendas.Domain.Common.Exceptions;
 
 namespace Vendas.Application.Commands.CatalogoCommands.CategoriaCommands.RenomearCategoria
 {
-    public sealed class RenomearCategoriaCommandHandler: IRequestHandler<RenomearCategoriaCommand, RenomearCategoriaResultDto>
+    public sealed class RenomearCategoriaCommandHandler
     {
 
         private readonly ICategoriaRepository _categoriaRepository;

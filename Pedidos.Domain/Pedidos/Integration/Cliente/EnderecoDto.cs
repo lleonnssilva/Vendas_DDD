@@ -11,7 +11,16 @@
         public string Pais { get; }
         public string Numero { get; }
 
-        public EnderecoDto(string cep, string logradouro, string complemento, string bairro, string estado, string cidade, string pais, string numero)
+        public EnderecoDto(
+            Guid id, 
+            string cep, 
+            string logradouro,
+            string numero,
+            string bairro, 
+            string cidade,
+            string estado,
+            string pais, 
+            string complemento)
         {
             Cep = cep;
             Logradouro = logradouro;
@@ -22,7 +31,5 @@
             Pais = pais;
             Numero = numero;
         }
-
-
     }
 }

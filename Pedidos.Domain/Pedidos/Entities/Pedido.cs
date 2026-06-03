@@ -26,7 +26,7 @@ namespace Vendas.Domain.Pedidos
         private Pedido(Guid clienteId, EnderecoEntrega enderecoEntrega)
         {
             Guard.AgainstEmptyGuid(clienteId, nameof(clienteId), "ClienteId inválido");
-
+            Guard.AgainstNull(enderecoEntrega, nameof(enderecoEntrega), "Endereço inválido");
             ClienteId = clienteId;
             EnderecoEntrega = enderecoEntrega;
             StatusPedido = StatusPedido.Pendente;
@@ -44,7 +44,7 @@ namespace Vendas.Domain.Pedidos
             Guard.AgainstNull(nomeProduto, nameof(nomeProduto));
             Guard.AgainstNull(precoProduto, nameof(precoProduto));
             Guard.AgainstNull(quantidade, nameof(quantidade));
-            Guard.Against<DomainException>(StatusPedido != StatusPedido.Pendente,"Itens só podem ser adicionados enquanto o pedido está pendente.");
+            Guard.Against<DomainException>(StatusPedido != StatusPedido.Pendente, "Itens só podem ser adicionados enquanto o pedido está pendente.");
 
             var existente = _itens.FirstOrDefault(i => i.ProdutoId == produtoId);
 
@@ -60,7 +60,7 @@ namespace Vendas.Domain.Pedidos
             RecalcularValorTotal();
             SetDataAtualizacao();
         }
-       
+
 
         public void RemoverItem(Guid itemId)
         {
@@ -160,12 +160,20 @@ namespace Vendas.Domain.Pedidos
 
         public void CancelarPedido(MotivoCancelamento? motivo = null)
         {
-            Guard.Against<DomainException>(StatusPedido >= StatusPedido.EmSeparacao, "Não é possível cancelar um pedido que já está em separação ou posterior");
+            Guard.Against<DomainException>(
+                StatusPedido != StatusPedido.Pendente, 
+                "Somente pedidos pendentes podem ser cancelados");
 
             StatusPedido = StatusPedido.Cancelado;
             SetDataAtualizacao();
 
-            AddDomainEvent(new PedidoCanceladoEvent(Id, ClienteId, StatusPedido, motivo ?? MotivoCancelamento.Outro(), _pagamentos.LastOrDefault()?.Id));
+            AddDomainEvent(
+                new PedidoCanceladoEvent(
+                    Id,
+                    ClienteId,
+                    StatusPedido,
+                    motivo ?? MotivoCancelamento.Outro(),
+                    _pagamentos.LastOrDefault()?.Id));
         }
     }
 }

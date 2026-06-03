@@ -1,21 +1,18 @@
 ﻿using Vendas.Application.Abstractions.Persistence;
-using Vendas.Application.Mediator.Interfaces;
-using Vendas.Domain.Pedidos.Integration.Catalogo;
 using Vendas.Domain.Common.Exceptions;
+using Vendas.Domain.Pedidos.Integration.Catalogo;
 namespace Vendas.Application.Commands.PedidosCommands.AdicionarItemAoPedido
 {
-    public sealed class AdicionarItemAoPedidoCommandHandler : IRequestHandler<AdicionarItemAoPedidoCommand, AdicionarItemAoPedidoResultDto>
+    public sealed class AdicionarItemAoPedidoCommandHandler 
     {
         private readonly IPedidoRepository _pedidoRepository;
-        private readonly CatalogoAcl _catalogoAcl;
         private readonly ICatalogoGateway _catalogoGateway;
-        private readonly IEstoqueRepository _estoqueRepository;
-        public AdicionarItemAoPedidoCommandHandler(IPedidoRepository pedidoRepository, CatalogoAcl catalogoAcl, ICatalogoGateway catalogoGateway, IEstoqueRepository estoqueRepository)
+        private readonly CatalogoAcl _catalogoAcl;
+        public AdicionarItemAoPedidoCommandHandler(IPedidoRepository pedidoRepository, CatalogoAcl catalogoAcl, ICatalogoGateway catalogoGateway)
         {
             _pedidoRepository = pedidoRepository;
-            _catalogoAcl = catalogoAcl;
             _catalogoGateway = catalogoGateway;
-            _estoqueRepository = estoqueRepository;
+            _catalogoAcl = catalogoAcl;
         }
 
 
@@ -29,12 +26,7 @@ namespace Vendas.Application.Commands.PedidosCommands.AdicionarItemAoPedido
             if (itemDto is null)
                 throw new DomainException("Produto não localizado.");
 
-            var disponivel = await _estoqueRepository.PossuiEstoqueDisponivelAsync(command.ProdutoId,command.Quantidade, cancellationToken);
-            if (!disponivel)
-                throw new DomainException("Estoque insulficiente para o produto.");
-
-
-            var (nomeProduto, precoProduto) = _catalogoAcl.TraduzirItem(itemDto);
+            var (nomeProduto, precoProduto) = _catalogoAcl.TraduzirProduto(itemDto);
 
             pedido.AdicionarItem(command.ProdutoId,nomeProduto,precoProduto,command.Quantidade);
 

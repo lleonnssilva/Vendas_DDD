@@ -34,8 +34,8 @@ namespace Vendas.Infra.Repositories
             await _lock.WaitAsync(cancellationToken);
             try
             {
-                _dbContext.Pedidos.Update(pedido);
-                _dbContext.SaveChanges();
+                //_dbContext.Pedidos.Update(pedido);
+                //_dbContext.SaveChanges();
             }
             finally
             {
@@ -49,7 +49,7 @@ namespace Vendas.Infra.Repositories
             await _lock.WaitAsync(cancellationToken);
             try
             {
-                return await _dbContext.Pedidos.FindAsync(pedidoId);
+                return null; //await _dbContext.Pedidos.FindAsync(pedidoId);
             }
             finally
             {

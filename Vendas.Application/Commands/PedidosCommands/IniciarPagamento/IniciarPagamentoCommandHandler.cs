@@ -4,7 +4,7 @@ using Vendas.Domain.Common.Exceptions;
 
 namespace Vendas.Application.Commands.PedidosCommands.IniciarPagamento
 {
-    public sealed class IniciarPagamentoCommandHandler : IRequestHandler<IniciarPagamentoCommand, IniciarPagamentoResultDto>
+    public sealed class IniciarPagamentoCommandHandler 
     {
         private readonly IPedidoRepository _pedidoRepository;
 
