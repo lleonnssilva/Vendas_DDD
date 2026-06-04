@@ -1,5 +1,6 @@
 ﻿
 using Vendas.Api.Endpoints.Pedidos;
+using Vendas.Application.Abstractions.Persistence;
 using Vendas.Application.Commands.PedidosCommands.AdicionarItemAoPedido;
 using Vendas.Application.Commands.PedidosCommands.CancelarPedido;
 using Vendas.Application.Commands.PedidosCommands.CriarPedido;
@@ -81,7 +82,7 @@ public static class PedidosEndPoints
         }))
             .WithSummary("Exibe os Ids dos dados disponíveis nos Fakes para usar nos testes");
 
-        group.MapGet("/", async (FakePedidoRepository repo, CancellationToken ct) =>
+        group.MapGet("/", async (IPedidoRepository repo, CancellationToken ct) =>
         {
             var pedidos = await repo.ListarTodosAsync(ct);
             var resultado = pedidos.Select(p => new
@@ -101,7 +102,7 @@ public static class PedidosEndPoints
 
         group.MapGet("/{id:guid}", async (
             Guid id,
-            FakePedidoRepository repo,
+            IPedidoRepository repo,
             CancellationToken ctl) =>
         {
             var pedido = await repo.ObterPorIdAsync(id, ctl);
@@ -229,7 +230,7 @@ public static class PedidosEndPoints
         group.MapPost("/{id:guid}/pagamento/confirmacao", async (
             Guid id,
             ConfirmarPagamentoRequest req,
-            FakePedidoRepository repo,
+            IPedidoRepository repo,
             CancellationToken ct) =>
         {
             try

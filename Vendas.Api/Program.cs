@@ -1,11 +1,14 @@
-using Vendas.Infra.Fakes;
+using Vendas.Infra.Extensions;
+using Vendas.Infra.Persistence.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddFakeInfrastructure();
+builder.Services.AddPersistence(builder.Configuration);
+builder.Services.AddApplication();
+builder.Services.AddIntegration();
 
 var app = builder.Build();
 
@@ -18,6 +21,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<VendasDbContext>();
+    db.Database.EnsureCreated();
+}
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

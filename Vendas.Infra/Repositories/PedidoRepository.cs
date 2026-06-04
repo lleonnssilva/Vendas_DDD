@@ -1,4 +1,7 @@
-﻿using Vendas.Application.Abstractions.Persistence;
+﻿
+
+using Microsoft.EntityFrameworkCore;
+using Vendas.Application.Abstractions.Persistence;
 using Vendas.Domain.Pedidos;
 using Vendas.Infra.Persistence.Context;
 
@@ -6,26 +9,26 @@ namespace Vendas.Infra.Repositories
 {
     public class PedidoRepository : IPedidoRepository
     {
-        protected readonly AppDbContext _dbContext;
+        protected readonly VendasDbContext _dbContext;
         private readonly SemaphoreSlim _lock = new(1, 1);
-        public PedidoRepository(AppDbContext dbContext)
+        public PedidoRepository(VendasDbContext dbContext)
         {
             _dbContext = dbContext;
         }
         public async Task AdicionarAsync(Pedido pedido, CancellationToken cancellationToken = default)
         {
 
-            await _lock.WaitAsync(cancellationToken);
-            try
-            {
-                await _dbContext.AddAsync(pedido);
-                _dbContext.SaveChanges();
-            }
-            finally
-            {
+            //await _lock.WaitAsync(cancellationToken);
+            //try
+            //{
+                await _dbContext.AddAsync(pedido,cancellationToken);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+            //}
+            //finally
+            //{
 
-                _lock.Release();
-            }
+            //    _lock.Release();
+            //}
         }
 
         public async Task AtualizarAsync(Pedido pedido, CancellationToken cancellationToken = default)
@@ -34,22 +37,35 @@ namespace Vendas.Infra.Repositories
             await _lock.WaitAsync(cancellationToken);
             try
             {
-                //_dbContext.Pedidos.Update(pedido);
-                //_dbContext.SaveChanges();
+               
+                await _dbContext.SaveChangesAsync(cancellationToken);
             }
             finally
             {
 
                 _lock.Release();
-            }
+             }
         }
 
-        public async Task<Pedido?> ObterPorIdAsync(Guid pedidoId, CancellationToken cancellationToken = default)
+        public  async Task<IReadOnlyList<Pedido>> ListarTodosAsync(CancellationToken cancellationToken = default)
+        {
+            return  await _dbContext.Pedidos
+                   .Include(p => p.Itens)
+                   .Include(p => p.Pagamentos)
+                   .AsSplitQuery()
+                   .AsTracking()
+                   .ToListAsync(cancellationToken);
+        }
+
+        public async Task<Pedido?> ObterPorIdAsync(Guid Id, CancellationToken cancellationToken = default)
         {
             await _lock.WaitAsync(cancellationToken);
             try
             {
-                return null; //await _dbContext.Pedidos.FindAsync(pedidoId);
+                return await _dbContext.Pedidos
+                    .Include(p=> p.Itens)
+                    .Include(p=> p.Pagamentos)
+                    .FirstOrDefaultAsync(p=> p.Id == Id, cancellationToken);
             }
             finally
             {

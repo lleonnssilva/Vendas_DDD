@@ -62,7 +62,7 @@ namespace Vendas.Domain.Pedidos.ValueObjects
         {
             return $"{Logradouro},{Numero}- {Complemento} - {Bairro}, {Cidade} - {Estado}, {Pais} - Cep: {Cep}";
         }
-        public static EnderecoEntrega Criar(string cep, string logradouro, string complemento, string bairro, string estado, string cidade, string pais, string numero)
+        public static EnderecoEntrega Criar(string cep, string logradouro, string numero, string bairro,  string cidade, string estado, string pais, string complemento)
         {
             return new EnderecoEntrega(cep, logradouro, complemento, bairro, estado, cidade, pais, numero);
         }

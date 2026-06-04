@@ -18,10 +18,10 @@ namespace Vendas.Domain.Pedidos
         public string NumeroPedido { get; private set; } = string.Empty;
 
         private readonly List<ItemPedido> _itens = new();
-        public ReadOnlyCollection<ItemPedido> Itens => _itens.AsReadOnly();
+        public IReadOnlyCollection<ItemPedido> Itens => _itens.AsReadOnly();
 
         private readonly List<Pagamento> _pagamentos = new();
-        public ReadOnlyCollection<Pagamento> Pagamentos => _pagamentos.AsReadOnly();
+        public IReadOnlyCollection<Pagamento> Pagamentos => _pagamentos.AsReadOnly();
         private Pedido() { }
         private Pedido(Guid clienteId, EnderecoEntrega enderecoEntrega)
         {

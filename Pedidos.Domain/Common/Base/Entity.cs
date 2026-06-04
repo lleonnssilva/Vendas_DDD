@@ -10,7 +10,7 @@ namespace Vendas.Domain.Common.Base
 
         protected Entity()
         {
-            Id = Guid.NewGuid();
+            //Id = Guid.NewGuid();
             DataCriacao = DateTime.UtcNow;
 
         }
