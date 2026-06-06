@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Vendas.Domain.Pedidos.Integration.Catalogo;
 using Vendas.Domain.Pedidos.Integration.Cliente;
 using Vendas.Infra.Fakes;

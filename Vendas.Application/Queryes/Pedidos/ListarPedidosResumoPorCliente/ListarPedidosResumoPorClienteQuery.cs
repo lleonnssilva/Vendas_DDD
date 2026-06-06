@@ -1,0 +1,17 @@
+﻿namespace Vendas.Application.Queryes.Pedidos.ListarPedidosResumoPorCliente
+{
+    public sealed class ListarPedidosResumoPorClienteQuery
+    {
+        public Guid ClienteId { get; }
+
+       
+        public ListarPedidosResumoPorClienteQuery(Guid clienteId)
+        {
+            if(clienteId == Guid.Empty)
+                throw new ArgumentNullException("ClienteId inválido",nameof(clienteId));
+            ClienteId = clienteId;
+        }
+
+
+    }
+}

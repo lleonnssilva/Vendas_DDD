@@ -12,14 +12,15 @@ namespace Vendas.Infra.Persistence.EntityConfiguration
 
             builder.HasKey(p => p.Id);
 
+            builder.Property(p => p.Id)
+                .ValueGeneratedNever();
+
             builder.Property(p => p.NumeroPedido)
                    .HasMaxLength(20)
                    .IsRequired();
 
             builder.Property(p => p.ClienteId)
                    .IsRequired();
-
-            
 
             builder.Property(p => p.StatusPedido)
                 .HasConversion<String>()
@@ -33,6 +34,7 @@ namespace Vendas.Infra.Persistence.EntityConfiguration
                    .HasConversion<string>()
                    .HasMaxLength(50)
                    .IsRequired();
+
             builder.Property(p => p.DataCriacao)
                    .IsRequired();
 
@@ -96,9 +98,12 @@ namespace Vendas.Infra.Persistence.EntityConfiguration
                 .HasForeignKey("PedidoId")
                 .OnDelete(DeleteBehavior.Cascade);
 
+          
+
             builder.Navigation(p => p.Pagamentos)
                 .HasField("_pagamentos")
                 .UsePropertyAccessMode(PropertyAccessMode.Field);
+
         }
     }
 

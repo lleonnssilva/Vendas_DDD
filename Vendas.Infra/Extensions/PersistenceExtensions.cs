@@ -17,7 +17,7 @@ namespace Vendas.Infra.Extensions
 
             services.AddDbContext<VendasDbContext>(options => options.UseSqlServer(connectionString));
             services.AddScoped<IPedidoRepository, PedidoRepository>();
-
+            services.AddScoped<IPedidoQueryRespository, PedidoQueryRespository>();
             return services;
         }
     }

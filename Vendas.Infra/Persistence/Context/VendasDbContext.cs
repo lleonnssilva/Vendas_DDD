@@ -8,6 +8,7 @@ namespace Vendas.Infra.Persistence.Context
     {
         //public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Pedido> Pedidos { get; set; }
+
         //public DbSet<Categoria> Categorias { get; set; }
         //public DbSet<Produto> Produtos { get; set; }
         //public DbSet<Endereco> Enderecos { get; set; }
@@ -25,6 +26,7 @@ namespace Vendas.Infra.Persistence.Context
             {
                 item.ToTable("ItensPedido");
                 item.HasKey(i => i.Id);
+                item.Property(i=> i.Id).ValueGeneratedNever();
                 item.Property<Guid>("PedidoId").IsRequired();
                 item.Property(i=> i.DataAtualizacao).IsRequired(false);
                 item.Ignore(i => i.DomainEvents);
@@ -32,6 +34,19 @@ namespace Vendas.Infra.Persistence.Context
                 item.Property(i => i.PrecoUnitario).HasPrecision(18,2);
                 item.Property(i => i.ValorTotal).HasPrecision(18, 2);
                 item.Property(i => i.DescontoAplicado).HasPrecision(18, 2);
+            });
+
+            modelBuilder.Entity<Pagamento>(pag =>
+            {
+                pag.ToTable("Pagamentos");
+                pag.HasKey(i => i.Id);
+                pag.Property(i => i.Id).ValueGeneratedNever();
+                pag.Ignore(i => i.DomainEvents);
+                pag.Property(i => i.DataAtualizacao).IsRequired(false);
+                pag.Property(i => i.Valor).HasPrecision(18, 2);
+                pag.Property(i => i.MetodoPagamento).HasConversion<string>().HasMaxLength(50);
+                pag.Property(i => i.StatusPagamento).HasConversion<string>().HasMaxLength(50);
+                pag.Property(i => i.CodigoTransacao).HasMaxLength(50);
             });
 
         }

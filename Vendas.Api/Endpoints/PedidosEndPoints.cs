@@ -1,4 +1,4 @@
-﻿
+﻿using Microsoft.AspNetCore.Mvc;
 using Vendas.Api.Endpoints.Pedidos;
 using Vendas.Application.Abstractions.Persistence;
 using Vendas.Application.Commands.PedidosCommands.AdicionarItemAoPedido;
@@ -8,9 +8,12 @@ using Vendas.Application.Commands.PedidosCommands.IniciarPagamento;
 using Vendas.Application.Commands.PedidosCommands.MarcarPedidoComoEntregue;
 using Vendas.Application.Commands.PedidosCommands.MarcarPedidoComoEnviado;
 using Vendas.Application.Commands.PedidosCommands.MarcarPedidoEmSeparacao;
+using Vendas.Application.Queryes.Pedidos.ListarPedidosPagamentosPorStatus;
+using Vendas.Application.Queryes.Pedidos.ListarPedidosResumo;
+using Vendas.Application.Queryes.Pedidos.ListarPedidosResumoPorCliente;
+using Vendas.Application.Queryes.Pedidos.ObterPedidoCompletoPorId;
 using Vendas.Domain.Common.Exceptions;
 using Vendas.Domain.Pedidos.Enums;
-using Vendas.Infra.Fakes;
 
 public static class PedidosEndPoints
 {
@@ -82,97 +85,102 @@ public static class PedidosEndPoints
         }))
             .WithSummary("Exibe os Ids dos dados disponíveis nos Fakes para usar nos testes");
 
-        group.MapGet("/", async (IPedidoRepository repo, CancellationToken ct) =>
+        //group.MapGet("/", async (IPedidoRepository repo, CancellationToken ct) =>
+        //{
+        //    var pedidos = await repo.ListarTodosAsync(ct);
+        //    var resultado = pedidos.Select(p => new
+        //    {
+        //        p.Id,
+        //        p.NumeroPedido,
+        //        p.ClienteId,
+        //        p.ValorTotal,
+        //        Status = p.StatusPedido.ToString(),
+        //        p.DataCriacao,
+        //        TotalItens = p.Itens.Count
+        //    });
+
+        //    return Results.Ok(resultado);
+        //})
+        //    .WithSummary("Lista todos pedidos em memória");
+
+        group.MapGet("/", async (
+             [FromServices]ListarPedidosResumoQueryHandler handler,
+            CancellationToken ct) =>
         {
-            var pedidos = await repo.ListarTodosAsync(ct);
-            var resultado = pedidos.Select(p => new
-            {
-                p.Id,
-                p.NumeroPedido,
-                p.ClienteId,
-                p.ValorTotal,
-                Status = p.StatusPedido.ToString(),
-                p.DataCriacao,
-                TotalItens = p.Itens.Count
-            });
+            var resultado = await handler.HandleAsync(new ListarPedidosResumoQuery(), ct);
 
             return Results.Ok(resultado);
         })
-            .WithSummary("Lista todos pedidos em memória");
+          .WithSummary("Lista resumida de todos os pedidos");
 
         group.MapGet("/{id:guid}", async (
             Guid id,
-            IPedidoRepository repo,
+            [FromServices] ObterPedidoCompletoPorIdQueryHandler handler,
             CancellationToken ctl) =>
         {
-            var pedido = await repo.ObterPorIdAsync(id, ctl);
-            if (pedido is null) return Results.NotFound();
+            var resultado = await handler.HandleAsync(new ObterPedidoCompletoPorIdQuery(id), ctl);
+            return resultado is null ? Results.NotFound() : Results.Ok(resultado);
 
-            var resultado = new
-            {
-                pedido.Id,
-                pedido.NumeroPedido,
-                pedido.ClienteId,
-                pedido.ValorTotal,
-                Status = pedido.StatusPedido.ToString(),
-                pedido.DataCriacao,
-                pedido.DataAtualizacao,
-                Endereco = new
-                {
-                    pedido.EnderecoEntrega?.Logradouro,
-                    pedido.EnderecoEntrega?.Numero,
-                    pedido.EnderecoEntrega?.Bairro,
-                    pedido.EnderecoEntrega?.Cidade,
-                    pedido.EnderecoEntrega?.Cep,
-
-                },
-                Itens = pedido.Itens.Select(i => new
-                {
-                    i.Id,
-                    i.ProdutoId,
-                    i.NomeProduto,
-                    i.PrecoUnitario,
-                    i.Quantidade,
-                    i.ValorTotal,
-                }),
-                Pagamentos = pedido.Pagamentos.Select(pg => new
-                {
-                    pg.Id,
-                    Metodo = pg.MetodoPagamento.ToString(),
-                    Status = pg.StatusPagamento.ToString(),
-                    pg.Valor,
-                    pg.CodigoTransacao,
-                    pg.DataPagamento,
-                })
-
-            };
-            return Results.Ok(resultado);
         })
             .WithSummary("Retorna detalhes completos de um pedido");
+
+        group.MapGet("/pagamentos", async ([FromQuery] StatusPagamento? status,
+            [FromServices] ListarPedidosPagamentosPorStatusQueryHandler handler,
+           CancellationToken ct) =>
+        {
+            if (status is null)
+            {
+                return Results.BadRequest(new
+                {
+                    erro = "Status inválido.Valores aceitos:Pendente(0),Aprovado(1),Recusado(2)"
+                });
+            }
+
+            var resultado = await handler.HandleAsync(new ListarPedidosPagamentosPorStatusQuery(status.Value), ct);
+
+            return Results.Ok(resultado);
+
+        })
+         .WithSummary("Lista pagamentos filtrados por status")
+         .WithDescription("Valores válidos para status:\n" +
+         " Pendente ou 1\n" +
+         " Aprovado ou 2\n" +
+         " Cancelado ou 3\n");
+
+        group.MapGet("/pedidos/clientes/{clienteId:guid}", async (
+            Guid clienteId,
+            [FromServices] ListarPedidosResumoPorClienteQueryHandler handler,
+            CancellationToken ctl) =>
+        {
+            var resultado = await handler.HandleAsync(new ListarPedidosResumoPorClienteQuery(clienteId), ctl);
+            return Results.Ok(resultado);
+
+        })
+          .WithSummary("Lista de pedidos resumidos de um cliente específico");
 
         group.MapPost("/", async (
             CriarPedidoRequest req,
             CriarPedidoCommandHandler handler,
             CancellationToken ct) =>
-        {
-            try
             {
-                var command = new CriarPedidoCommand(req.ClienteId, req.EnderecoId);
-                var result = await handler.HandleAsync(command, ct);
-                return Results.Created($"/pedidos/{result.PedidoId}", result);
-            }
-            catch (InvalidOperationException ex)
-            {
+                try
+                {
+                    var command = new CriarPedidoCommand(req.ClienteId, req.EnderecoId);
+                    var result = await handler.HandleAsync(command, ct);
+                    return Results.Created($"/pedidos/{result.PedidoId}", result);
+                }
+                catch (InvalidOperationException ex)
+                {
 
-                return Results.NotFound(new { erro = ex.Message });
-            }
-            catch (DomainException ex)
-            {
+                    return Results.NotFound(new { erro = ex.Message });
+                }
+                catch (DomainException ex)
+                {
 
-                return Results.UnprocessableEntity(new { erro = ex.Message });
-            }
-        })
-            .WithSummary("Criar pedido");
+                    return Results.UnprocessableEntity(new { erro = ex.Message });
+                }
+            })
+                .WithSummary("Criar pedido");
 
         group.MapPost("/{id:guid}/itens", async (
             Guid id,

@@ -12,7 +12,7 @@ namespace Vendas.Domain.Pedidos
     public sealed class Pedido : AggregateRoot
     {
         public Guid ClienteId { get; private set; }
-        public EnderecoEntrega? EnderecoEntrega { get; private set; }
+        public EnderecoEntrega EnderecoEntrega { get; private set; }
         public decimal ValorTotal { get; private set; }
         public StatusPedido StatusPedido { get; private set; }
         public string NumeroPedido { get; private set; } = string.Empty;
@@ -31,13 +31,18 @@ namespace Vendas.Domain.Pedidos
             EnderecoEntrega = enderecoEntrega;
             StatusPedido = StatusPedido.Pendente;
             ValorTotal = 0m;
-
-            GerarNumeroPedido();
+            DataAtualizacao = DateTime.UtcNow;
+            //GerarNumeroPedido();
 
         }
 
-        public static Pedido Criar(Guid clienteId, EnderecoEntrega enderecoEntrega) => new(clienteId, enderecoEntrega);
+        public static Pedido Criar(Guid clienteId, EnderecoEntrega enderecoEntrega)
+        {
+            var pedido = new Pedido(clienteId,enderecoEntrega);
+            pedido.GerarNumeroPedido();
+            return pedido;
 
+        }
         public void AdicionarItem(Guid produtoId, string nomeProduto, decimal precoProduto, int quantidade)
         {
             Guard.AgainstEmptyGuid(produtoId, "Informe o produto.");

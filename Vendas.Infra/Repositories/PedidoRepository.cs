@@ -47,15 +47,15 @@ namespace Vendas.Infra.Repositories
              }
         }
 
-        public  async Task<IReadOnlyList<Pedido>> ListarTodosAsync(CancellationToken cancellationToken = default)
-        {
-            return  await _dbContext.Pedidos
-                   .Include(p => p.Itens)
-                   .Include(p => p.Pagamentos)
-                   .AsSplitQuery()
-                   .AsTracking()
-                   .ToListAsync(cancellationToken);
-        }
+        //public  async Task<IReadOnlyList<Pedido>> ListarTodosAsync(CancellationToken cancellationToken = default)
+        //{
+        //    return  await _dbContext.Pedidos
+        //           .Include(p => p.Itens)
+        //           .Include(p => p.Pagamentos)
+        //           .AsSplitQuery()
+        //           .AsTracking()
+        //           .ToListAsync(cancellationToken);
+        //}
 
         public async Task<Pedido?> ObterPorIdAsync(Guid Id, CancellationToken cancellationToken = default)
         {
